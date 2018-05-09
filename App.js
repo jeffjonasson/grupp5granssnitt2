@@ -7,7 +7,7 @@ class HomeScreen extends React.Component {
     render() {
 	return (
 		<ImageBackground source={require('./vy2.png')} style={styles.backgroundImage}>
-		
+		<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>	
 		<Button
 	    onPress={() => this.props.navigation.navigate('Game')}
 	    title="START GAME"
@@ -19,6 +19,7 @@ class HomeScreen extends React.Component {
 	    title="TUTORIAL"
 	    color="#00e6dc"
 		/>
+		</View>
 		
 	    </ImageBackground>
 
@@ -37,7 +38,7 @@ class GameScreen extends React.Component {
 		</ImageBackground>
 	);
     }
-}
+} 
 
 class TutorialScreen extends React.Component {
     render() {
@@ -99,9 +100,9 @@ export default class App extends React.Component {
 let styles = StyleSheet.create({
     backgroundImage: {
 	flex: 1,
-	//  resizeMode: 'stretch', //'cover', // or 'stretch'
-	width: '100%',
-	height: '100%'
+	//	  resizeMode: 'stretch', //'cover', // or 'stretch'
+	//	width: '100%',
+	//	height: '75%'
     },
     /*  button: {
 	flex: 3,
