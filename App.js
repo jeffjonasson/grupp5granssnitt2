@@ -1,33 +1,71 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image, ImageBackground, Button, Alert } from 'react-native';
+import { StyleSheet, Text, View, Image, ImageBackground, Button, Alert, Dimensions, } from 'react-native';
 import { createStackNavigator,} from 'react-navigation';
+
+let deviceWidth = Dimensions.get('window').width
+let deviceHeight = Dimensions.get('window').height
+	const coordinatesHeight = [];
+	const coordinatesWidth = [];
+
+
+class BallonRender extends React.Component {
+    
+    render() {
+
+
+//	for (let i = 0; i <= 10; i++) { 
+	    let randHeight = Math.floor(Math.random() * Math.floor(deviceHeight))
+	    let randWidth = Math.floor(Math.random() * Math.floor(deviceWidth))
+	/*     coordinatesHeight.push(randHeight);
+	    coordinatesWidth.push(randWidth); 
+	    
+	} */
+
+	return (
+	  //  <View>
+	    /*	<View style ={{top: coordinatesHeight[0], left: coordinatesWidth[0]}}>
+		<Image source ={require('./gulBallong.png')}></Image>
+		</View> */
+		<View style={styles.container}>
+		<Text>{deviceWidth} 'DEVICE WIDTH'</Text>
+		<Text>{deviceHeight} 'DEV HEIGHT'</Text>
+		<Text>{randHeight} 'RAND HEIGHT'</Text>
+		<Text>{randWidth} 'RAND WIDTH'</Text>
+		</View>
+		// </View>
+	);
+    }
+}
+
 
 
 class HomeScreen extends React.Component {
     render() {
 	return (
 		<ImageBackground source={require('./vy2.png')} style={styles.backgroundImage}>
-			<View style={styles.container}>	
-				<View style={styles.buttonContainer}>
-					<Button onPress={() => this.props.navigation.navigate('Game')} title="START GAME" color="#FFFFFF" accessibilityLabel="Tap on Me"/>
-				</View>
-				<View style={styles.divider}></View>
-				<View style={styles.buttonContainer}>
-					<Button onPress={() => this.props.navigation.navigate('Tutorial')} title="TUTORIAL" color="#FFFFFF" accessibilityLabel="Tap on Me"/>
-				</View>
-			</View>
-	    </ImageBackground>	    
+		<View style={styles.container}>	
+		<View style={styles.buttonContainer}>
+		<Button onPress={() => this.props.navigation.navigate('Game')} title="START GAME" color="#FFFFFF" accessibilityLabel="Tap on Me"/>
+		</View>
+		<View style={styles.divider}></View>
+		<View style={styles.buttonContainer}>
+		<Button onPress={() => this.props.navigation.navigate('Tutorial')} title="TUTORIAL" color="#FFFFFF" accessibilityLabel="Tap on Me"/>
+		</View>
+		</View>
+		</ImageBackground>	    
 	);
     }
 }
 
 class GameScreen extends React.Component {
     render() {
+
+
 	return (
-	    <ImageBackground source={require('./vy2.png')} style={styles.backgroundImage}>
-			<View style={styles.container}>
-				<Text>Game Screen</Text>
-			</View>
+		<ImageBackground source={require('./vy2.png')} style={styles.backgroundImage}>
+		<View style={styles.container}>
+		<BallonRender/>
+		</View>
 		</ImageBackground>
 	);
     }
@@ -36,10 +74,10 @@ class GameScreen extends React.Component {
 class TutorialScreen extends React.Component {
     render() {
 	return (
-	    <ImageBackground source={require('./vy2.png')} style={styles.backgroundImage}>
-			<View style={styles.container}>
-				<Text>Tutorial Screen</Text>
-			</View>
+		<ImageBackground source={require('./vy2.png')} style={styles.backgroundImage}>
+		<View style={styles.container}>
+		<Text>Tutorial Screen</Text>
+		</View>
 		</ImageBackground>
 	);
     }
@@ -62,59 +100,35 @@ export default class App extends React.Component {
     }
 }
 
-/* export default class App extends React.Component {
-   render() {
-   return (
-   <ImageBackground source={require('./vy2.png')} style={styles.backgroundImage}>
-   
-   <Button
-   onPress={() => {Alert.alert('Pressed!');
-   }}
-   title="START GAME"
-   color="#00e6dc"
-   />
 
-   <Button
-   onPress={() => {Alert.alert('Pressed!');
-   }}
-   title="TUTORIAL"
-   color="#00e6dc"
-   />
-   
-   </ImageBackground>
 
-   
-   );
-   }
-   } */
-
-// 
 
 let styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		alignItems: 'center', 
-		justifyContent: 'center',
-	},
-	backgroundImage: {
-		flex: 1,
-	},
-	buttonContainer: {
-		backgroundColor: 'rgba(52, 52, 52, 0.3)',
+    container: {
+	flex: 1,
+	alignItems: 'center', 
+	justifyContent: 'center',
+    },
+    backgroundImage: {
+	flex: 1,
+    },
+    buttonContainer: {
+	backgroundColor: 'rgba(52, 52, 52, 0.3)',
     	borderRadius: 10,
-		padding: 10,
+	padding: 10,
     	shadowColor: '#000000',
     	shadowOffset: {
-      	width: 0,
-		height: 3,
-		},
-		shadowRadius: 10,
-		shadowOpacity: 0.25,
+      	    width: 0,
+	    height: 3,
 	},
-	divider: {
-		width:0,
-		height:10,
-	}		
+	shadowRadius: 10,
+	shadowOpacity: 0.25,
+    },
+    divider: {
+	width:0,
+	height:10,
+    },
+
 })
 
 
