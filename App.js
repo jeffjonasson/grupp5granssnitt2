@@ -4,35 +4,45 @@ import { createStackNavigator,} from 'react-navigation';
 
 let deviceWidth = Dimensions.get('window').width
 let deviceHeight = Dimensions.get('window').height
-	const coordinatesHeight = [];
-	const coordinatesWidth = [];
+const coordinatesHeight = [];
+const coordinatesWidth = [];
 
 
 class BallonRender extends React.Component {
     
     render() {
+	var ballons = [];
+	let randWidth = 0;
+	let randHeight = 0;
+	for (let i = 0; i <= 5; i++) { 
+	    randHeight = Math.floor(Math.random() * Math.floor(deviceHeight))
+	    randWidth = Math.floor(Math.random() * Math.floor(deviceWidth))
+	    coordinatesHeight.push(randHeight);
+	    coordinatesWidth.push(randWidth);  
+	    ballons.push(	<View key ={i} style ={{top: randHeight, left:randWidth, }}>
+				<Image source ={require('./gulBallong.png')} style = {{width:50, height:30}}></Image>
 
-
-//	for (let i = 0; i <= 10; i++) { 
-	    let randHeight = Math.floor(Math.random() * Math.floor(deviceHeight))
-	    let randWidth = Math.floor(Math.random() * Math.floor(deviceWidth))
-	/*     coordinatesHeight.push(randHeight);
-	    coordinatesWidth.push(randWidth); 
-	    
-	} */
+				</View> )
+	    this.state = {
+		coords: coordinatesWidth,
+		otherCoords: coordinatesHeight,
+	    };
+	}
 
 	return (
-	  //  <View>
-	    /*	<View style ={{top: coordinatesHeight[0], left: coordinatesWidth[0]}}>
-		<Image source ={require('./gulBallong.png')}></Image>
-		</View> */
+		<View>
+		{ballons}
 		<View style={styles.container}>
 		<Text>{deviceWidth} 'DEVICE WIDTH'</Text>
 		<Text>{deviceHeight} 'DEV HEIGHT'</Text>
 		<Text>{randHeight} 'RAND HEIGHT'</Text>
 		<Text>{randWidth} 'RAND WIDTH'</Text>
-		</View>
-		// </View>
+		<Text>{coordinatesWidth} 'COORD WIDTH'</Text>
+		<Text>{coordinatesHeight} 'COORD HEIGHT'</Text>
+		
+
+	    </View>
+		 </View>
 	);
     }
 }
