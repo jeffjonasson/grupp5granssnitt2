@@ -14,19 +14,26 @@ class BallonRender extends React.Component {
 	var ballons = [];
 	let randWidth = 0;
 	let randHeight = 0;
-	for (let i = 0; i <= 5; i++) { 
+
+	for (let i = 0; i <= 10; i++) { 
 	    randHeight = Math.floor(Math.random() * Math.floor(deviceHeight))
 	    randWidth = Math.floor(Math.random() * Math.floor(deviceWidth))
 	    coordinatesHeight.push(randHeight);
-	    coordinatesWidth.push(randWidth);  
-	    ballons.push(	<View key ={i} style ={{top: randHeight, left:randWidth, }}>
-				<Image source ={require('./gulBallong.png')} style = {{width:50, height:30}}></Image>
+	    coordinatesWidth.push(randWidth);
+	    
+	    if (randHeight % 2 == 0){
+		ballons.push(
+			<View key ={i} style ={{top: randHeight, left:randWidth, width: 50, height: 150, position: 'absolute'}}>
+			<Image source ={require('./gulBallong.png')} style = {{flex:1 , width: undefined, height: undefined, resizeMode: 'center'}}></Image>
 
-				</View> )
-	    this.state = {
-		coords: coordinatesWidth,
-		otherCoords: coordinatesHeight,
-	    };
+		    </View> ) }
+	    else {
+		ballons.push(
+			<View key ={i} style ={{top: randHeight, left:randWidth, width: 50, height: 150, position: 'absolute'}}>
+			<Image source ={require('./rodBallong.png')} style = {{flex:1 , width: undefined, height: undefined, resizeMode: 'center'}}></Image>
+
+		    </View> )
+	    }
 	}
 
 	return (
@@ -42,7 +49,7 @@ class BallonRender extends React.Component {
 		
 
 	    </View>
-		 </View>
+		</View>
 	);
     }
 }
