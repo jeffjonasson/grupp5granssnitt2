@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image, ImageBackground, Button, Alert, Dimensions, } from 'react-native';
+import { StyleSheet, Text, View, Image, ImageBackground, Button, Alert, Dimensions, Modal, TouchableHighlight,} from 'react-native';
 import { createStackNavigator,} from 'react-navigation';
 
 let deviceWidth = Dimensions.get('window').width
@@ -9,16 +9,44 @@ const coordinatesWidth = [];
 
 
 /* 
-Function stolen from: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
+   Function stolen from: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
 */
 function getRandomInt(min, max) {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min)) + min; //The maximum is exclusive and the minimum is inclusive
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min)) + min; //The maximum is exclusive and the minimum is inclusive
+}
+
+class MathRender extends React.Component {
+
+    render() {
+	    var math = 0;
+    var num1 = 0;
+    var num2 = 0;
+    var sum = 0;
+    num1 =  getRandomInt(0,11);
+    num2 = getRandomInt(0,11);
+    sum = num1 + num2;
+	return (
+		<View>
+		<Text>'What is '{num1}' + '{num2}'?'  </Text>
+	    </View>
+	);
+    }
 }
 
 
+
+
+
 class BallonRender extends React.Component {
+    state = {
+	modalVisible: false,
+    };
+
+    setModalVisible(visible) {
+	this.setState({modalVisible: visible});
+    }
     
     render() {
 	var ballons = [];
@@ -55,10 +83,40 @@ class BallonRender extends React.Component {
 		<Text>{randHeight} 'RAND HEIGHT'</Text>
 		<Text>{randWidth} 'RAND WIDTH'</Text>
 		<Text>{coordinatesWidth} 'COORD WIDTH'</Text>
-		<Text>{coordinatesHeight} 'COORD HEIGHT'</Text>
-		
-
+		<Text>{coordinatesHeight} 'COORD HEIGHT'</Text>	
 		</View>
+
+	    
+		<Modal
+            animationType="slide"
+	    supportedOrientations={['landscape']}
+            transparent={true}
+            visible={this.state.modalVisible}
+            onRequestClose={() => {
+		alert('Modal has been closed.');
+            }}>
+		<View style={{marginTop: 22}}>
+		<View>
+		<Text>Hello World!</Text>
+		<MathRender/>
+
+		<TouchableHighlight
+            onPress={() => {
+                this.setModalVisible(!this.state.modalVisible);
+            }}>
+                <Text>Hide Modal</Text>
+		</TouchableHighlight>
+		</View>
+		</View>
+		</Modal>
+		
+		<TouchableHighlight
+            onPress={() => {
+		this.setModalVisible(true);
+            }}>
+		<Text>Show Modal</Text>
+		</TouchableHighlight>
+		
 		</View>
 	);
     }
