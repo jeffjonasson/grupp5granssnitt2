@@ -8,6 +8,16 @@ const coordinatesHeight = [];
 const coordinatesWidth = [];
 
 
+/* 
+Function stolen from: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
+*/
+function getRandomInt(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min)) + min; //The maximum is exclusive and the minimum is inclusive
+}
+
+
 class BallonRender extends React.Component {
     
     render() {
@@ -15,9 +25,9 @@ class BallonRender extends React.Component {
 	let randWidth = 0;
 	let randHeight = 0;
 
-	for (let i = 0; i <= 10; i++) { 
-	    randHeight = Math.floor(Math.random() * Math.floor(deviceHeight))
-	    randWidth = Math.floor(Math.random() * Math.floor(deviceWidth))
+	for (let i = 0; i <= 9; i++) { 
+	    randHeight = getRandomInt(0,deviceHeight-150);
+	    randWidth= getRandomInt(deviceWidth/2, deviceWidth-50);
 	    coordinatesHeight.push(randHeight);
 	    coordinatesWidth.push(randWidth);
 	    
@@ -39,7 +49,7 @@ class BallonRender extends React.Component {
 	return (
 		<View>
 		{ballons}
-		<View style={styles.container}>
+	    	<View style={styles.container}>
 		<Text>{deviceWidth} 'DEVICE WIDTH'</Text>
 		<Text>{deviceHeight} 'DEV HEIGHT'</Text>
 		<Text>{randHeight} 'RAND HEIGHT'</Text>
@@ -48,7 +58,7 @@ class BallonRender extends React.Component {
 		<Text>{coordinatesHeight} 'COORD HEIGHT'</Text>
 		
 
-	    </View>
+		</View>
 		</View>
 	);
     }
