@@ -8,6 +8,24 @@ const coordinatesHeight = [];
 const coordinatesWidth = [];
 
 
+/*
+Function stolen from: https://www.jstips.co/en/javascript/shuffle-an-array/
+*/
+
+function shuffle(arr) {
+    var i,
+        j,
+        temp;
+    for (i = arr.length - 1; i > 0; i--) {
+        j = Math.floor(Math.random() * (i + 1));
+        temp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = temp;
+    }
+    return arr;    
+};
+
+
 /* 
    Function stolen from: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
 */
@@ -17,20 +35,53 @@ function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min)) + min; //The maximum is exclusive and the minimum is inclusive
 }
 
+//TODO: What happens when one presses a answer button?
+function checkAnswer(randAnsw, corrAnsw) {
+    if (randAnsw = corrAnsw) {
+return <Text>'CORRECT ANSWER' </Text>
+    }
+
+    else {}
+	}
+
+
 class MathRender extends React.Component {
 
     render() {
-	    var math = 0;
-    var num1 = 0;
-    var num2 = 0;
-    var sum = 0;
-    num1 =  getRandomInt(0,11);
-    num2 = getRandomInt(0,11);
-    sum = num1 + num2;
+	var math = 0;
+	var num1 = 0;
+	var num2 = 0;
+	var sum = 0;
+	const answAlternatives = [];
+	num1 =  getRandomInt(0,11);
+	num2 = getRandomInt(0,11);
+	sum = (num1 + num2).toString();
+	randAnsw1 = getRandomInt(0,num1+num2+10).toString();
+	randAnsw2 = getRandomInt(0,num1+num2+10).toString();
+	answAlternatives.push(sum);
+	answAlternatives.push(randAnsw1);
+	answAlternatives.push(randAnsw2);
+	var shuffledAlt = shuffle(answAlternatives);
+	
 	return (
 		<View>
+		<View>
 		<Text>'What is '{num1}' + '{num2}'?'  </Text>
-	    </View>
+		</View>
+		<View>
+		<View style = {styles.buttonContainer}>
+		<Button onPress={() =>  checkAnswer(shuffledAlt[0], sum)} title={shuffledAlt[0]} color="#FFFFFF" accessibilityLabel="Tap on Me"/>
+		</View>
+		<View style={styles.divider}></View>
+			<View style = {styles.buttonContainer}>
+		<Button onPress={() =>  checkAnswer(shuffledAlt[1], sum)} title={shuffledAlt[1]} color="#FFFFFF" accessibilityLabel="Tap on Me"/>
+		</View>
+		<View style={styles.divider}></View>
+					<View style = {styles.buttonContainer}>
+		<Button onPress={() =>  checkAnswer(shuffledAlt[2], sum)} title={shuffledAlt[2]} color="#FFFFFF" accessibilityLabel="Tap on Me"/>
+		</View>
+		</View>
+		</View>
 	);
     }
 }
@@ -117,7 +168,7 @@ class BallonRender extends React.Component {
 		<Text>Show Modal</Text>
 		</TouchableHighlight>
 		
-		</View>
+	    </View>
 	);
     }
 }
