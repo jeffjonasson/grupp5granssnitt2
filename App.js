@@ -66,19 +66,19 @@ class MathRender extends React.Component {
 	return (
 		<View>
 		<View>
-		<Text>'What is '{num1}' + '{num2}'?'  </Text>
+			<Text style = {styles.question}>What is {num1} + {num2}?</Text>
+		<View style = {styles.row}>
+		<View style = {styles.modalButton}>
+			<Button onPress={() =>  checkAnswer(shuffledAlt[0], sum)} title={shuffledAlt[0]} color="#FFFFFF" accessibilityLabel="Tap on Me"/>
 		</View>
-		<View>
-		<View style = {styles.buttonContainer}>
-		<Button onPress={() =>  checkAnswer(shuffledAlt[0], sum)} title={shuffledAlt[0]} color="#FFFFFF" accessibilityLabel="Tap on Me"/>
+		<View style={styles.divider2}></View>
+		<View style = {styles.modalButton}>
+			<Button onPress={() =>  checkAnswer(shuffledAlt[1], sum)} title={shuffledAlt[1]} color="#FFFFFF" accessibilityLabel="Tap on Me"/>
 		</View>
-		<View style={styles.divider}></View>
-			<View style = {styles.buttonContainer}>
-		<Button onPress={() =>  checkAnswer(shuffledAlt[1], sum)} title={shuffledAlt[1]} color="#FFFFFF" accessibilityLabel="Tap on Me"/>
+		<View style={styles.divider2}></View>
+		<View style = {styles.modalButton}>
+			<Button onPress={() =>  checkAnswer(shuffledAlt[2], sum)} title={shuffledAlt[2]} color="#FFFFFF" accessibilityLabel="Tap on Me"/>
 		</View>
-		<View style={styles.divider}></View>
-					<View style = {styles.buttonContainer}>
-		<Button onPress={() =>  checkAnswer(shuffledAlt[2], sum)} title={shuffledAlt[2]} color="#FFFFFF" accessibilityLabel="Tap on Me"/>
 		</View>
 		</View>
 		</View>
@@ -139,33 +139,25 @@ class BallonRender extends React.Component {
 
 	    
 		<Modal
-            animationType="slide"
-	    supportedOrientations={['landscape']}
-            transparent={true}
-            visible={this.state.modalVisible}
-            onRequestClose={() => {
-		alert('Modal has been closed.');
-            }}>
-		<View style={{marginTop: 22}}>
+        	animationType="slide"
+	    	supportedOrientations={['landscape']}
+        	transparent={true}
+        	visible={this.state.modalVisible}
+        	onRequestClose={() => { alert('Modal has been closed.');}}>
+		<View style={{backgroundColor: 'rgba(52, 52, 52, 0.75)', padding: 80, justifyContent: 'center', alignItems: 'center',}}>
 		<View>
-		<Text>Hello World!</Text>
 		<MathRender/>
+		</View>
+		</View>
+		<View style = {styles.exitButton}>
+			<Button onPress={() => this.setModalVisible(!this.state.modalVisible)} title='QUIT' color="#FFFFFF" accessibilityLabel="Tap on Me"/>
+		</View>
 
-		<TouchableHighlight
-            onPress={() => {
-                this.setModalVisible(!this.state.modalVisible);
-            }}>
-                <Text>Hide Modal</Text>
-		</TouchableHighlight>
-		</View>
-		</View>
 		</Modal>
 		
 		<TouchableHighlight
-            onPress={() => {
-		this.setModalVisible(true);
-            }}>
-		<Text>Show Modal</Text>
+            onPress={() => { this.setModalVisible(true); }}>
+			<Text>Show Modal</Text>
 		</TouchableHighlight>
 		
 	    </View>
@@ -241,30 +233,72 @@ export default class App extends React.Component {
 
 let styles = StyleSheet.create({
     container: {
-	flex: 1,
-	alignItems: 'center', 
-	justifyContent: 'center',
+		flex: 1,
+		alignItems: 'center', 
+		justifyContent: 'center',
     },
     backgroundImage: {
-	flex: 1,
+		flex: 1,
     },
     buttonContainer: {
-	backgroundColor: 'rgba(52, 52, 52, 0.3)',
+		backgroundColor: 'rgba(52, 52, 52, 0.3)',
     	borderRadius: 10,
-	padding: 10,
+		padding: 10,
     	shadowColor: '#000000',
     	shadowOffset: {
-      	    width: 0,
+      	width: 0,
 	    height: 3,
 	},
 	shadowRadius: 10,
-	shadowOpacity: 0.25,
+		shadowOpacity: 0.25,
     },
     divider: {
-	width:0,
-	height:10,
-    },
-
-})
+		width:0,
+		height:10,
+	},
+	modalButton: {
+		backgroundColor: 'lightblue',
+		borderRadius: 10,
+		padding: 10,
+		shadowColor: '#000000',
+		shadowOffset: {
+		width: 0,
+		height: 3,
+		alignItems: 'center',
+		justifyContent: 'center',
+		},
+		shadowRadius: 10,
+		shadowOpacity: 0.25,
+	},
+	row: {
+		flexDirection: 'row',
+		padding: 100,
+		alignItems: 'center',
+		justifyContent: 'center',
+	},
+	divider2: {
+		width:17,
+		height:0,
+	},
+	question: {
+		color: 'white',
+		fontSize: 27,
+		fontWeight: 'bold',
+		textAlign: 'center',
+		top: 50, 
+	},
+	exitButton: {
+		backgroundColor: 'transparent',
+		padding: 10,
+		alignSelf: 'flex-end',
+		marginTop: 40,
+		marginLeft: 50,
+		position: 'absolute',
+	},
+		
+	})
+	
+	
+	
 
 
