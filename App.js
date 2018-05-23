@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image, ImageBackground, Button, Alert, Dimensions, Modal, TouchableHighlight,} from 'react-native';
 import { createStackNavigator,} from 'react-navigation';
+import { AppLoading, Asset, Font } from 'expo';
 
 let deviceWidth = Dimensions.get('window').width
 let deviceHeight = Dimensions.get('window').height
@@ -87,9 +88,6 @@ class MathRender extends React.Component {
 }
 
 
-
-
-
 class BallonRender extends React.Component {
     state = {
 	modalVisible: false,
@@ -168,22 +166,54 @@ class BallonRender extends React.Component {
 
 
 class HomeScreen extends React.Component {
-    render() {
-	return (
-		<ImageBackground source={require('./vy2.png')} style={styles.backgroundImage}>
-		<View style={styles.container}>	
-		<View style={styles.buttonContainer}>
-		<Button onPress={() => this.props.navigation.navigate('Game')} title="START GAME" color="#FFFFFF" accessibilityLabel="Tap on Me"/>
-		</View>
-		<View style={styles.divider}></View>
-		<View style={styles.buttonContainer}>
-		<Button onPress={() => this.props.navigation.navigate('Tutorial')} title="TUTORIAL" color="#FFFFFF" accessibilityLabel="Tap on Me"/>
-		</View>
-		</View>
-		</ImageBackground>	    
-	);
-    }
-}
+	state = {
+		isLoadingComplete: false,
+	  };
+
+	render() {
+		if (!this.state.isLoadingComplete && !this.props.skipLoadingScreen) {
+			return (
+			  <AppLoading
+				startAsync={this._loadResourcesAsync}
+				onError={this._handleLoadingError}
+				onFinish={this._handleFinishLoading}
+			  />
+			);
+		  } else {
+		}
+
+		return (
+			<ImageBackground source={require('./vy2.png')} style={styles.backgroundImage}>
+			<View style={styles.container}>	
+			<View style={styles.buttonContainer}>
+			<Button onPress={() => this.props.navigation.navigate('Game')} title="START GAME" color="#FFFFFF" accessibilityLabel="Tap on Me"/>
+			</View>
+			<View style={styles.divider}></View>
+			<View style={styles.buttonContainer}>
+			<Button onPress={() => this.props.navigation.navigate('Tutorial')} title="TUTORIAL" color="#FFFFFF" accessibilityLabel="Tap on Me"/>
+			</View>
+			</View>
+			</ImageBackground>	    
+		);
+		}
+		_loadResourcesAsync = async () => {
+			return Promise.all([
+			  Asset.loadAsync([
+				require('./vy2.png'),
+			  ]),
+			]);
+		  };
+		
+		  _handleLoadingError = error => {
+			// In this case, you might want to report the error to your error
+			// reporting service, for example Sentry
+			console.warn(error);
+		  };
+		
+		  _handleFinishLoading = () => {
+			this.setState({ isLoadingComplete: true });
+		  };
+	}
 
 class GameScreen extends React.Component {
     render() {
