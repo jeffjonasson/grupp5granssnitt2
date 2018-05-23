@@ -3,6 +3,9 @@ import { StyleSheet, Text, View, Image, ImageBackground, Button, Alert, Dimensio
 import { createStackNavigator,} from 'react-navigation';
 import { AppLoading, Asset, Font } from 'expo';
 
+// Import Stylesheet
+import Style from "./Styles.js";
+
 let deviceWidth = Dimensions.get('window').width
 let deviceHeight = Dimensions.get('window').height
 const coordinatesHeight = [];
@@ -110,13 +113,13 @@ class BallonRender extends React.Component {
 	    
 	    if (randHeight % 2 == 0){
 		ballons.push(
-			<View key ={i} style ={{top: randHeight, left:randWidth, width: 50, height: 150, position: 'absolute'}}>
+			<View key ={i} style ={{top: randHeight, left:randWidth, width: Style.BALLON_WIDTH, height: Style.BALLON_HEIGHT, position: 'absolute'}}>
 			<Image source ={require('./gulBallong.png')} style = {{flex:1 , width: undefined, height: undefined, resizeMode: 'center'}}></Image>
 
 		    </View> ) }
 	    else {
 		ballons.push(
-			<View key ={i} style ={{top: randHeight, left:randWidth, width: 50, height: 150, position: 'absolute'}}>
+			<View key ={i} style ={{top: randHeight, left:randWidth, width: Style.BALLON_WIDTH, height: Style.BALLON_HEIGHT, position: 'absolute'}}>
 			<Image source ={require('./rodBallong.png')} style = {{flex:1 , width: undefined, height: undefined, resizeMode: 'center'}}></Image>
 
 		    </View> )
@@ -142,7 +145,7 @@ class BallonRender extends React.Component {
         	transparent={true}
         	visible={this.state.modalVisible}
         	onRequestClose={() => { alert('Modal has been closed.');}}>
-		<View style={{backgroundColor: 'rgba(52, 52, 52, 0.75)', padding: 80, justifyContent: 'center', alignItems: 'center',}}>
+		<View style={{backgroundColor: 'rgba(52, 52, 52, 0.75)', padding: Style.PADDING_MODAL, justifyContent: 'center', alignItems: 'center',}}>
 		<View>
 		<MathRender/>
 		</View>
@@ -266,63 +269,53 @@ let styles = StyleSheet.create({
 		flex: 1,
 		alignItems: 'center', 
 		justifyContent: 'center',
-    },
+	},
+	text: {
+		fontSize: Style.FONT_SIZE,
+		lineHeight: Style.FONT_SIZE * 1.5,
+	},
     backgroundImage: {
 		flex: 1,
     },
     buttonContainer: {
 		backgroundColor: 'rgba(52, 52, 52, 0.3)',
+		shadowColor: '#000000',
     	borderRadius: 10,
-		padding: 10,
-    	shadowColor: '#000000',
-    	shadowOffset: {
-      	width: 0,
-	    height: 3,
-	},
-	shadowRadius: 10,
-		shadowOpacity: 0.25,
+		padding: Style.PADDING,
     },
     divider: {
 		width:0,
-		height:10,
+		height:Style.DIVIDER,
 	},
 	modalButton: {
 		backgroundColor: 'lightblue',
-		borderRadius: 10,
-		padding: 10,
 		shadowColor: '#000000',
-		shadowOffset: {
-		width: 0,
-		height: 3,
-		alignItems: 'center',
-		justifyContent: 'center',
-		},
-		shadowRadius: 10,
-		shadowOpacity: 0.25,
+		borderRadius: 10,
+		padding: Style.PADDING,
 	},
 	row: {
 		flexDirection: 'row',
-		padding: 100,
+		padding: Style.ROW,
 		alignItems: 'center',
 		justifyContent: 'center',
 	},
 	divider2: {
-		width:17,
+		width:Style.WIDTH,
 		height:0,
 	},
 	question: {
 		color: 'white',
-		fontSize: 27,
+		fontSize: Style.FONT_SIZE_BIG,
 		fontWeight: 'bold',
 		textAlign: 'center',
-		top: 50, 
+		top: Style.MARGIN_TOP_QUESTION, 
 	},
 	exitButton: {
 		backgroundColor: 'transparent',
-		padding: 10,
+		padding: Style.PADDING,
 		alignSelf: 'flex-end',
-		marginTop: 40,
-		marginLeft: 50,
+		marginTop: Style.MARGIN_TOP_EXIT,
+		marginLeft: Style.MARGIN_TOP_QUESTION,
 		position: 'absolute',
 	},
 		
