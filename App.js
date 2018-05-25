@@ -72,17 +72,21 @@ class MathRender extends React.Component {
 	num1:0,
 	num2:0,
 	sum:0,
-	shuffledAlt:[]
+	shuffledAlt:[],
+	color:'lightblue'
     }
     this.checkAnswer = this.checkAnswer.bind(this);
   }
 
-
+    //TODO: Only the pressed button should change color, so different states? Something with states needs to be fixed.
+    //TODO: If correct, the hited balloon needs to be removed.
+    //TODO: Disabled the quit function until answered correctely? Or just not remove the hited balloon if closed before correct answer is given?
     checkAnswer(randAnsw, corrAnsw) {
 	if (randAnsw == corrAnsw) {
 	    this.setState({
 		textValue:  <Text>'CORRECT ANSWER, PRESS QUIT TO CONTINUE'</Text>
 	    })
+	    this.setState({color:'green'})
 	    console.log(this.state.textValue)
 
 	}
@@ -90,7 +94,8 @@ class MathRender extends React.Component {
 	else {
 		this.setState({
 		textValue: <Text>'SORRY YOUR ANSWER IS WRONG, TRY AGAIN'</Text>
-	    })
+		})
+	    	    this.setState({color:'red'})
 		console.log(this.state.textValue)
 	}
 
@@ -115,6 +120,7 @@ class MathRender extends React.Component {
 	    this.newQuessh()
 	    this.state.quesshDone = true
 	}
+	
 	return (
 		<View>
 		<View>
@@ -123,16 +129,16 @@ class MathRender extends React.Component {
 		</View>
 		<Text style = {styles.question}>What is {this.state.num1} + {this.state.num2}?</Text>
 		<View style = {styles.row}>
-		<View style = {styles.modalButton}>
+		<View style = {[styles.modalButton,{backgroundColor: this.state.color}]}>
 		<Button onPress={() =>  this.checkAnswer(this.state.shuffledAlt[0], this.state.sum)} title={this.state.shuffledAlt[0]} color="#FFFFFF" accessibilityLabel="Tap on Me"/>
 		</View>
 		<View style={styles.divider2}></View>
-		<View style = {styles.modalButton}>
+		<View style = {[styles.modalButton,{backgroundColor: this.state.color}]}>
 		<Button onPress={() =>  this.checkAnswer(this.state.shuffledAlt[1], this.state.sum)} title={this.state.shuffledAlt[1]} color="#FFFFFF" accessibilityLabel="Tap on Me"/>
 		
 	    </View>
 		<View style={styles.divider2}></View>
-		<View style = {styles.modalButton}>
+		<View style ={[styles.modalButton,{backgroundColor: this.state.color}]}>
 		<Button onPress={() =>  this.checkAnswer(this.state.shuffledAlt[2], this.state.sum)} title={this.state.shuffledAlt[2]} color="#FFFFFF" accessibilityLabel="Tap on Me"/>
 		</View>
 		</View>
