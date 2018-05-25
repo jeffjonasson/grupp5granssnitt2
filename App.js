@@ -11,9 +11,8 @@ let deviceHeight = Dimensions.get('window').height
 const coordinatesHeight = [];
 const coordinatesWidth = [];
 
-
 /*
-Function stolen from: https://www.jstips.co/en/javascript/shuffle-an-array/
+  Function stolen from: https://www.jstips.co/en/javascript/shuffle-an-array/
 */
 
 function shuffle(arr) {
@@ -39,49 +38,102 @@ function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min)) + min; //The maximum is exclusive and the minimum is inclusive
 }
 
-//TODO: What happens when one presses a answer button?
-function checkAnswer(randAnsw, corrAnsw) {
-    if (randAnsw = corrAnsw) {
-return <Text>'CORRECT ANSWER' </Text>
+
+class ShowAnswResult extends React.Component {
+    constructor(props) {
+	super(props);
+	this.state = {
+	    isShowingText: true
+		     };
+
+
+        setInterval(() => {
+	    this.setState(previousState => {
+		return { isShowingText: previousState.isShowingText };
+	    });
+	}, 1000);
     }
 
-    else {}
-	}
-
+    render() {
+	let display = this.state.isShowingText ? this.props.text : '';
+	
+	return (
+		<Text style = {styles.question}>{display}</Text>
+	);
+    }
+}
 
 class MathRender extends React.Component {
+  constructor(props){
+    super(props);
+    this.state = {
+	textValue: <Text></Text>,
+	quesshDone: false,
+	num1:0,
+	num2:0,
+	sum:0,
+	shuffledAlt:[]
+    }
+    this.checkAnswer = this.checkAnswer.bind(this);
+  }
 
-    render() {
-	var math = 0;
-	var num1 = 0;
-	var num2 = 0;
-	var sum = 0;
-	const answAlternatives = [];
-	num1 =  getRandomInt(0,11);
-	num2 = getRandomInt(0,11);
-	sum = (num1 + num2).toString();
-	randAnsw1 = getRandomInt(0,num1+num2+10).toString();
-	randAnsw2 = getRandomInt(0,num1+num2+10).toString();
-	answAlternatives.push(sum);
+
+    checkAnswer(randAnsw, corrAnsw) {
+	if (randAnsw == corrAnsw) {
+	    this.setState({
+		textValue:  <Text>'CORRECT ANSWER, PRESS QUIT TO CONTINUE'</Text>
+	    })
+	    console.log(this.state.textValue)
+
+	}
+
+	else {
+		this.setState({
+		textValue: <Text>'SORRY YOUR ANSWER IS WRONG, TRY AGAIN'</Text>
+	    })
+		console.log(this.state.textValue)
+	}
+
+    }
+
+    newQuessh() {
+	this.state.num1 = getRandomInt(0,11);
+	this.state.num2 = getRandomInt(0,11);
+	this.state.sum = (this.state.num1 + this.state.num2).toString();
+	let randAnsw1 = getRandomInt(0,this.state.num1+this.state.num2+10).toString();
+	let randAnsw2 = getRandomInt(0,this.state.num1+this.state.num2+10).toString();
+	let answAlternatives = [];
+	answAlternatives.push(this.state.sum);
 	answAlternatives.push(randAnsw1);
 	answAlternatives.push(randAnsw2);
-	var shuffledAlt = shuffle(answAlternatives);
-	
+	this.state.shuffledAlt = shuffle(answAlternatives);
+    }
+
+    
+    render() {
+	if(!this.state.quesshDone){
+	    this.newQuessh()
+	    this.state.quesshDone = true
+	}
 	return (
 		<View>
 		<View>
-			<Text style = {styles.question}>What is {num1} + {num2}?</Text>
+		<View>
+		<ShowAnswResult text= {this.state.textValue} />
+		</View>
+		<Text style = {styles.question}>What is {this.state.num1} + {this.state.num2}?</Text>
 		<View style = {styles.row}>
 		<View style = {styles.modalButton}>
-			<Button onPress={() =>  checkAnswer(shuffledAlt[0], sum)} title={shuffledAlt[0]} color="#FFFFFF" accessibilityLabel="Tap on Me"/>
+		<Button onPress={() =>  this.checkAnswer(this.state.shuffledAlt[0], this.state.sum)} title={this.state.shuffledAlt[0]} color="#FFFFFF" accessibilityLabel="Tap on Me"/>
 		</View>
 		<View style={styles.divider2}></View>
 		<View style = {styles.modalButton}>
-			<Button onPress={() =>  checkAnswer(shuffledAlt[1], sum)} title={shuffledAlt[1]} color="#FFFFFF" accessibilityLabel="Tap on Me"/>
-		</View>
+		<Button onPress={() =>  this.checkAnswer(this.state.shuffledAlt[1], this.state.sum)} title={this.state.shuffledAlt[1]} color="#FFFFFF" accessibilityLabel="Tap on Me"/>
+		
+	    </View>
 		<View style={styles.divider2}></View>
 		<View style = {styles.modalButton}>
-			<Button onPress={() =>  checkAnswer(shuffledAlt[2], sum)} title={shuffledAlt[2]} color="#FFFFFF" accessibilityLabel="Tap on Me"/>
+		<Button onPress={() =>  this.checkAnswer(this.state.shuffledAlt[2], this.state.sum)} title={this.state.shuffledAlt[2]} color="#FFFFFF" accessibilityLabel="Tap on Me"/>
 		</View>
 		</View>
 		</View>
@@ -101,7 +153,7 @@ class BallonRender extends React.Component {
     }
     
     render() {
-	var ballons = [];
+	let ballons = [];
 	let randWidth = 0;
 	let randHeight = 0;
 
@@ -140,25 +192,25 @@ class BallonRender extends React.Component {
 
 	    
 		<Modal
-        	animationType="slide"
-	    	supportedOrientations={['landscape']}
-        	transparent={true}
-        	visible={this.state.modalVisible}
-        	onRequestClose={() => { alert('Modal has been closed.');}}>
+            animationType="slide"
+	    supportedOrientations={['landscape']}
+            transparent={true}
+            visible={this.state.modalVisible}
+            onRequestClose={() => { alert('Modal has been closed.');}}>
 		<View style={{backgroundColor: 'rgba(52, 52, 52, 0.75)', padding: Style.PADDING_MODAL, justifyContent: 'center', alignItems: 'center',}}>
 		<View>
 		<MathRender/>
 		</View>
 		</View>
 		<View style = {styles.exitButton}>
-			<Button onPress={() => this.setModalVisible(!this.state.modalVisible)} title='QUIT' color="#FFFFFF" accessibilityLabel="Tap on Me"/>
+		<Button onPress={() => this.setModalVisible(!this.state.modalVisible)} title='QUIT' color="#FFFFFF" accessibilityLabel="Tap on Me"/>
 		</View>
 
-		</Modal>
+	    </Modal>
 		
 		<TouchableHighlight
             onPress={() => { this.setModalVisible(true); }}>
-			<Text>Show Modal</Text>
+		<Text>Show Modal</Text>
 		</TouchableHighlight>
 		
 	    </View>
@@ -169,54 +221,54 @@ class BallonRender extends React.Component {
 
 
 class HomeScreen extends React.Component {
-	state = {
-		isLoadingComplete: false,
-	  };
+    state = {
+	isLoadingComplete: false,
+    };
 
-	render() {
-		if (!this.state.isLoadingComplete && !this.props.skipLoadingScreen) {
-			return (
-			  <AppLoading
-				startAsync={this._loadResourcesAsync}
-				onError={this._handleLoadingError}
-				onFinish={this._handleFinishLoading}
-			  />
-			);
-		  } else {
-		}
-
-		return (
-			<ImageBackground source={require('./vy2.png')} style={styles.backgroundImage}>
-			<View style={styles.container}>	
-			<View style={styles.buttonContainer}>
-			<Button onPress={() => this.props.navigation.navigate('Game')} title="START GAME" color="#FFFFFF" accessibilityLabel="Tap on Me"/>
-			</View>
-			<View style={styles.divider}></View>
-			<View style={styles.buttonContainer}>
-			<Button onPress={() => this.props.navigation.navigate('Tutorial')} title="TUTORIAL" color="#FFFFFF" accessibilityLabel="Tap on Me"/>
-			</View>
-			</View>
-			</ImageBackground>	    
-		);
-		}
-		_loadResourcesAsync = async () => {
-			return Promise.all([
-			  Asset.loadAsync([
-				require('./vy2.png'),
-			  ]),
-			]);
-		  };
-		
-		  _handleLoadingError = error => {
-			// In this case, you might want to report the error to your error
-			// reporting service, for example Sentry
-			console.warn(error);
-		  };
-		
-		  _handleFinishLoading = () => {
-			this.setState({ isLoadingComplete: true });
-		  };
+    render() {
+	if (!this.state.isLoadingComplete && !this.props.skipLoadingScreen) {
+	    return (
+		    <AppLoading
+		startAsync={this._loadResourcesAsync}
+		onError={this._handleLoadingError}
+		onFinish={this._handleFinishLoading}
+		    />
+	    );
+	} else {
 	}
+
+	return (
+		<ImageBackground source={require('./vy2.png')} style={styles.backgroundImage}>
+		<View style={styles.container}>	
+		<View style={styles.buttonContainer}>
+		<Button onPress={() => this.props.navigation.navigate('Game')} title="START GAME" color="#FFFFFF" accessibilityLabel="Tap on Me"/>
+		</View>
+		<View style={styles.divider}></View>
+		<View style={styles.buttonContainer}>
+		<Button onPress={() => this.props.navigation.navigate('Tutorial')} title="TUTORIAL" color="#FFFFFF" accessibilityLabel="Tap on Me"/>
+		</View>
+		</View>
+		</ImageBackground>	    
+	);
+    }
+    _loadResourcesAsync = async () => {
+	return Promise.all([
+	    Asset.loadAsync([
+		require('./vy2.png'),
+	    ]),
+	]);
+    };
+    
+    _handleLoadingError = error => {
+	// In this case, you might want to report the error to your error
+	// reporting service, for example Sentry
+	console.warn(error);
+    };
+    
+    _handleFinishLoading = () => {
+	this.setState({ isLoadingComplete: true });
+    };
+}
 
 class GameScreen extends React.Component {
     render() {
@@ -266,62 +318,62 @@ export default class App extends React.Component {
 
 let styles = StyleSheet.create({
     container: {
-		flex: 1,
-		alignItems: 'center', 
-		justifyContent: 'center',
-	},
-	text: {
-		fontSize: Style.FONT_SIZE,
-		lineHeight: Style.FONT_SIZE * 1.5,
-	},
+	flex: 1,
+	alignItems: 'center', 
+	justifyContent: 'center',
+    },
+    text: {
+	fontSize: Style.FONT_SIZE,
+	lineHeight: Style.FONT_SIZE * 1.5,
+    },
     backgroundImage: {
-		flex: 1,
+	flex: 1,
     },
     buttonContainer: {
-		backgroundColor: 'rgba(52, 52, 52, 0.3)',
-		shadowColor: '#000000',
+	backgroundColor: 'rgba(52, 52, 52, 0.3)',
+	shadowColor: '#000000',
     	borderRadius: 10,
-		padding: Style.PADDING,
+	padding: Style.PADDING,
     },
     divider: {
-		width:0,
-		height:Style.DIVIDER,
-	},
-	modalButton: {
-		backgroundColor: 'lightblue',
-		shadowColor: '#000000',
-		borderRadius: 10,
-		padding: Style.PADDING,
-	},
-	row: {
-		flexDirection: 'row',
-		padding: Style.ROW,
-		alignItems: 'center',
-		justifyContent: 'center',
-	},
-	divider2: {
-		width:Style.WIDTH,
-		height:0,
-	},
-	question: {
-		color: 'white',
-		fontSize: Style.FONT_SIZE_BIG,
-		fontWeight: 'bold',
-		textAlign: 'center',
-		top: Style.MARGIN_TOP_QUESTION, 
-	},
-	exitButton: {
-		backgroundColor: 'transparent',
-		padding: Style.PADDING,
-		alignSelf: 'flex-end',
-		marginTop: Style.MARGIN_TOP_EXIT,
-		marginLeft: Style.MARGIN_TOP_QUESTION,
-		position: 'absolute',
-	},
-		
-	})
-	
-	
-	
+	width:0,
+	height:Style.DIVIDER,
+    },
+    modalButton: {
+	backgroundColor: 'lightblue',
+	shadowColor: '#000000',
+	borderRadius: 10,
+	padding: Style.PADDING,
+    },
+    row: {
+	flexDirection: 'row',
+	padding: Style.ROW,
+	alignItems: 'center',
+	justifyContent: 'center',
+    },
+    divider2: {
+	width:Style.WIDTH,
+	height:0,
+    },
+    question: {
+	color: 'white',
+	fontSize: Style.FONT_SIZE_BIG,
+	fontWeight: 'bold',
+	textAlign: 'center',
+	top: Style.MARGIN_TOP_QUESTION, 
+    },
+    exitButton: {
+	backgroundColor: 'transparent',
+	padding: Style.PADDING,
+	alignSelf: 'flex-end',
+	marginTop: Style.MARGIN_TOP_EXIT,
+	marginLeft: Style.MARGIN_TOP_QUESTION,
+	position: 'absolute',
+    },
+    
+})
+
+
+
 
 
