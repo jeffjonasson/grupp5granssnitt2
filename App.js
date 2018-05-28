@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image, ImageBackground, Button, Alert, Dimensions, Modal, TouchableHighlight,} from 'react-native';
+import { StyleSheet, Text, View, Image, ImageBackground, Button, Alert, Dimensions, Modal, TouchableHighlight, Animated, PanResponder, State, } from 'react-native';
 import { createStackNavigator,} from 'react-navigation';
 import { AppLoading, Asset, Font } from 'expo';
 
@@ -10,6 +10,7 @@ let deviceWidth = Dimensions.get('window').width
 let deviceHeight = Dimensions.get('window').height
 const coordinatesHeight = [];
 const coordinatesWidth = [];
+const circleRadius = 30;
 
 /*
   Function stolen from: https://www.jstips.co/en/javascript/shuffle-an-array/
@@ -224,7 +225,56 @@ class BallonRender extends React.Component {
     }
 }
 
+class DraggableCircle extends React.Component {
+	constructor() {
+		super();
+	  	this.state = {
+			pan: new Animated.ValueXY()
+	  	};
+	}
 
+	componentWillMount() {
+	  	// Add a listener for the delta value change
+	  	this._val = { x: 0 , y: 0 }
+	  	this.state.pan.addListener((value) => this._val = value);
+	  	// Initialize PanResponder with move handling
+	  	this.panResponder = PanResponder.create({
+			onStartShouldSetPanResponder: (e, gesture) => true,
+			onPanResponderMove: Animated.event([null, { dx: this.state.pan.x, dy: this.state.pan.y }]),
+			// this.state.pan.setValue({ x:0, y:0})
+			onPanResponderRelease: (e, gesture) => {
+				/* Animated.spring(this.state.pan, {
+				  	toValue: { x: 0, y: 0 },
+				 	friction: 5
+				}).start(); */
+				Animated.sequence([
+					Animated.decay(this.state.pan, {
+						// coast to a stop
+						velocity: {x: 0.8, y: -0.2}, // velocity from gesture release
+						deceleration: 0.99895,
+					}),
+					Animated.spring(this.state.pan, {
+						toValue: {x: 0, y: 0},    // return to start
+						friction: 5
+					}),
+				]).start(); 
+			}
+		});
+		console.log(this._val.x + " " + this._val.y)
+	}
+  
+	render() {
+		const panStyle = {
+			transform: this.state.pan.getTranslateTransform()
+		}
+		return (
+			<Animated.View
+				{...this.panResponder.panHandlers}
+				style={[panStyle, styles.circleFig]}
+			/>
+		);
+	}
+}
 
 class HomeScreen extends React.Component {
     state = {
@@ -284,6 +334,7 @@ class GameScreen extends React.Component {
 		<ImageBackground source={require('./vy2.png')} style={styles.backgroundImage}>
 		<View style={styles.container}>
 		<BallonRender/>
+		<DraggableCircle/>
 		</View>
 		</ImageBackground>
 	);
@@ -376,7 +427,15 @@ let styles = StyleSheet.create({
 	marginLeft: Style.MARGIN_TOP_QUESTION,
 	position: 'absolute',
     },
-    
+    circleFig: {
+		backgroundColor: "grey",
+		width: circleRadius * 2,
+		height: circleRadius * 2,
+		borderRadius: circleRadius,
+		position: 'absolute',
+		left: 100,
+		bottom: 50
+	  }
 })
 
 
