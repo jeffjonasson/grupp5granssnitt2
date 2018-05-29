@@ -12,6 +12,7 @@ const coordinatesHeight = [];
 const coordinatesWidth = [];
 const circleRadius = 30;
 
+
 /*
   Function stolen from: https://www.jstips.co/en/javascript/shuffle-an-array/
 */
@@ -151,16 +152,19 @@ class MathRender extends React.Component {
 
 
 class BallonRender extends React.Component {
-    state = {
-	modalVisible: false,
-    };
+      constructor(props){
+    super(props);
+   this.state = {
+       modalVisible: false,
+       ballons: [],
+   };
+      }
 
     setModalVisible(visible) {
 	this.setState({modalVisible: visible});
     }
-    
-    render() {
-	let ballons = [];
+
+    createBallones(){
 	let randWidth = 0;
 	let randHeight = 0;
 
@@ -171,23 +175,27 @@ class BallonRender extends React.Component {
 	    coordinatesWidth.push(randWidth);
 	    
 	    if (randHeight % 2 == 0){
-		ballons.push(
+		this.state.ballons.push(
 			<View key ={i} style ={{top: randHeight, left:randWidth, width: Style.BALLON_WIDTH, height: Style.BALLON_HEIGHT, position: 'absolute'}}>
 			<Image source ={require('./gulBallong.png')} style = {{flex:1 , width: undefined, height: undefined, resizeMode: 'center'}}></Image>
 
 		    </View> ) }
 	    else {
-		ballons.push(
+		this.state.ballons.push(
 			<View key ={i} style ={{top: randHeight, left:randWidth, width: Style.BALLON_WIDTH, height: Style.BALLON_HEIGHT, position: 'absolute'}}>
 			<Image source ={require('./rodBallong.png')} style = {{flex:1 , width: undefined, height: undefined, resizeMode: 'center'}}></Image>
 
 		    </View> )
 	    }
 	}
+    }
+    
+    render() {
+	this.createBallones();
 
-	return (
-		<View>
-		{ballons}
+
+	/*
+Add the following lines under this.state.ballons to view thw coordinates, declaration of variables needs to be changed if it should work (i.e this.state.rand...)
 	    	<View style={styles.container}>
 		<Text>{deviceWidth} 'DEVICE WIDTH'</Text>
 		<Text>{deviceHeight} 'DEV HEIGHT'</Text>
@@ -196,6 +204,10 @@ class BallonRender extends React.Component {
 		<Text>{coordinatesWidth} 'COORD WIDTH'</Text>
 		<Text>{coordinatesHeight} 'COORD HEIGHT'</Text>	
 		</View>
+*/
+	return (
+		<View>
+		{this.state.ballons}
 
 	    
 		<Modal
