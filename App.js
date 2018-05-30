@@ -8,6 +8,7 @@ import Style from "./Styles.js";
 //Define coordinates, sizes, etc for generating the balloons. 
 let deviceWidth = Dimensions.get('window').width
 let deviceHeight = Dimensions.get('window').height
+let newBallones = true;
 const coordinatesHeight = [];
 const coordinatesWidth = [];
 const circleRadius = 30;
@@ -164,7 +165,9 @@ class BallonRender extends React.Component {
     super(props);
     this.state = {
        modalVisible: false,
-       ballons: [],
+	ballons: [],
+	randWidth: 0,
+	randHeight: 0,
      };
     }
 
@@ -173,42 +176,45 @@ class BallonRender extends React.Component {
     }
 
     createBallones(){
-	let randWidth = 0;
-	let randHeight = 0;
-
+	this.state.ballons=[];
 	for (let i = 0; i <= 9; i++) { 
-	    randHeight = getRandomInt(0,deviceHeight-150);
-	    randWidth= getRandomInt(deviceWidth/2, deviceWidth-50);
-	    coordinatesHeight.push(randHeight);
-	    coordinatesWidth.push(randWidth);
+	    this.state.randHeight = getRandomInt(-deviceHeight+250,0);
+	    this.state.randWidth= getRandomInt(0, deviceWidth/2);
+	    coordinatesHeight.push(this.state.randHeight);
+	    coordinatesWidth.push(this.state.randWidth);
 	    
-	    if (randHeight % 2 == 0){
+	    if (this.state.randHeight % 2 == 0){
 		this.state.ballons.push(
-			<View key ={i} style ={{top: randHeight, left:randWidth, width: Style.BALLON_WIDTH, height: Style.BALLON_HEIGHT, position: 'absolute'}}>
+			<View key ={i} style ={{top: this.state.randHeight, left: this.state.randWidth, width: Style.BALLON_WIDTH, height: Style.BALLON_HEIGHT, position: 'absolute'}}>
 			<Image source ={require('./gulBallong.png')} style = {{flex:1 , width: undefined, height: undefined, resizeMode: 'center'}}></Image>
 
 		    </View> ) }
 	    else {
 		this.state.ballons.push(
-			<View key ={i} style ={{top: randHeight, left:randWidth, width: Style.BALLON_WIDTH, height: Style.BALLON_HEIGHT, position: 'absolute'}}>
+			<View key ={i} style ={{top: this.state.randHeight, left: this.state.randWidth, width: Style.BALLON_WIDTH, height: Style.BALLON_HEIGHT, position: 'absolute'}}>
 			<Image source ={require('./rodBallong.png')} style = {{flex:1 , width: undefined, height: undefined, resizeMode: 'center'}}></Image>
 
 		    </View> )
 	    }
 	}
+	newBallones = false;
     }
     
     render() {
+		if(newBallones){
 	this.createBallones();
-
+		}
 
 	/*
 Add the following lines under this.state.ballons to view thw coordinates, declaration of variables needs to be changed if it should work (i.e this.state.rand...)
+	return (
+		<View>
+		{this.state.ballons}
 	    	<View style={styles.container}>
 		<Text>{deviceWidth} 'DEVICE WIDTH'</Text>
 		<Text>{deviceHeight} 'DEV HEIGHT'</Text>
-		<Text>{randHeight} 'RAND HEIGHT'</Text>
-		<Text>{randWidth} 'RAND WIDTH'</Text>
+		<Text>{this.state.randHeight} 'RAND HEIGHT'</Text>
+		<Text>{this.state.randWidth} 'RAND WIDTH'</Text>
 		<Text>{coordinatesWidth} 'COORD WIDTH'</Text>
 		<Text>{coordinatesHeight} 'COORD HEIGHT'</Text>	
 		</View>
@@ -216,7 +222,7 @@ Add the following lines under this.state.ballons to view thw coordinates, declar
 	return (
 		<View>
 		{this.state.ballons}
-
+	    	
 		<Modal
             animationType="slide"
 	     	supportedOrientations={['landscape']}
@@ -231,7 +237,7 @@ Add the following lines under this.state.ballons to view thw coordinates, declar
 		<View style = {styles.exitButton}>
 		<Button onPress={() => this.setModalVisible(!this.state.modalVisible)} title={i18n.t('quit')} color="#FFFFFF" accessibilityLabel="Tap on Me"/>
 		</View>
-	    </Modal>
+		</Modal>
 		
 		<TouchableHighlight
             onPress={() => { this.setModalVisible(true); }}>
@@ -315,7 +321,7 @@ class HomeScreen extends React.Component {
 	    );
 	} else {
 	}
-
+	newBallones = true;
 	return (
 		<ImageBackground source={require('./vy2.png')} style={styles.backgroundImage}>
 		<View style={styles.container}>	
