@@ -2,9 +2,11 @@ import React from 'react';
 import { StyleSheet, Text, View, Image, ImageBackground, Button, Alert, Dimensions, Modal, TouchableHighlight, Animated, PanResponder, State, } from 'react-native';
 import { createStackNavigator,} from 'react-navigation';
 import { AppLoading, Asset, Font } from 'expo';
+import i18n from 'ex-react-native-i18n';
 
 // Import Stylesheet
 import Style from "./Styles.js";
+
 
 let deviceWidth = Dimensions.get('window').width
 let deviceHeight = Dimensions.get('window').height
@@ -291,7 +293,11 @@ class DraggableCircle extends React.Component {
 class HomeScreen extends React.Component {
     state = {
 	isLoadingComplete: false,
-    };
+	};
+	//Async call to init the locale
+	componentWillMount() {
+		i18n.initAsync();
+	}
 
     render() {
 	if (!this.state.isLoadingComplete && !this.props.skipLoadingScreen) {
@@ -309,11 +315,14 @@ class HomeScreen extends React.Component {
 		<ImageBackground source={require('./vy2.png')} style={styles.backgroundImage}>
 		<View style={styles.container}>	
 		<View style={styles.buttonContainer}>
-		<Button onPress={() => this.props.navigation.navigate('Game')} title="START GAME" color="#FFFFFF" accessibilityLabel="Tap on Me"/>
+		<Button onPress={() => this.props.navigation.navigate('Game')} title={i18n.t('start')} color="#FFFFFF" accessibilityLabel="Tap on Me"/>
 		</View>
 		<View style={styles.divider}></View>
 		<View style={styles.buttonContainer}>
-		<Button onPress={() => this.props.navigation.navigate('Tutorial')} title="TUTORIAL" color="#FFFFFF" accessibilityLabel="Tap on Me"/>
+		<Button onPress={() => this.props.navigation.navigate('Tutorial')} title={i18n.t('tutorial')} color="#FFFFFF" accessibilityLabel="Tap on Me"/>
+		</View>
+		<View style={styles.exitButton}>
+			<Button onPress={() => {i18n.locale = 'en_EN', this.forceUpdate()}} title={i18n.t('changeLanguage')} color="#FFFFFF" accessibilityLabel="Tap on Me"/>
 		</View>
 		</View>
 		</ImageBackground>	    
@@ -329,7 +338,8 @@ class HomeScreen extends React.Component {
     
     _handleLoadingError = error => {
 	// In this case, you might want to report the error to your error
-	// reporting service, for example Sentry
+	// reporting service, for example Sentry. 
+	
 	console.warn(error);
     };
     
@@ -401,9 +411,9 @@ let styles = StyleSheet.create({
     buttonContainer: {
 	backgroundColor: 'rgba(52, 52, 52, 0.3)',
 	shadowColor: '#000000',
-    	borderRadius: 10,
+    borderRadius: 10,
 	padding: Style.PADDING,
-    },
+	},
     divider: {
 	width:0,
 	height:Style.DIVIDER,
@@ -449,6 +459,22 @@ let styles = StyleSheet.create({
 		bottom: 50
 	  }
 })
+
+// Enable fallbacks if you want `en-US` and `en-GB` to fallback to `en`
+i18n.fallbacks = true
+   
+i18n.translations = {
+  en_EN: {
+	start: 'START GAME', 
+	tutorial: 'TUTORIAL', 
+	changeLanguage: 'Change Language'
+  },
+  sv: {
+	start: 'BÖRJA SPELA', 
+	tutorial: 'TUTORIAL',
+	changeLanguage: 'Byt Språk'
+  }
+}
 
 
 
