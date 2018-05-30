@@ -3,11 +3,9 @@ import { StyleSheet, Text, View, Image, ImageBackground, Button, Alert, Dimensio
 import { createStackNavigator,} from 'react-navigation';
 import { AppLoading, Asset, Font } from 'expo';
 import i18n from 'ex-react-native-i18n';
-
-// Import Stylesheet
 import Style from "./Styles.js";
 
-
+//Define coordinates, sizes, etc for generating the balloons. 
 let deviceWidth = Dimensions.get('window').width
 let deviceHeight = Dimensions.get('window').height
 const coordinatesHeight = [];
@@ -17,8 +15,8 @@ const circleRadius = 30;
 
 /*
   Function stolen from: https://www.jstips.co/en/javascript/shuffle-an-array/
+  Shuffles answers in order to present math problem differently
 */
-
 function shuffle(arr) {
     var i,
         j,
@@ -35,6 +33,7 @@ function shuffle(arr) {
 
 /* 
    Function stolen from: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
+   Generates random integers based on max and min input 
 */
 function getRandomInt(min, max) {
     min = Math.ceil(min);
@@ -42,22 +41,21 @@ function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min)) + min; //The maximum is exclusive and the minimum is inclusive
 }
 
-
+/* 
+Displays answer to math problem 
+*/
 class ShowAnswResult extends React.Component {
     constructor(props) {
 	super(props);
 	this.state = {
 	    isShowingText: true
 		     };
-
-
         setInterval(() => {
 	    this.setState(previousState => {
 		return { isShowingText: previousState.isShowingText };
 	    });
 	}, 1000);
     }
-
     render() {
 	let display = this.state.isShowingText ? this.props.text : '';
 	
@@ -67,6 +65,10 @@ class ShowAnswResult extends React.Component {
     }
 }
 
+/* 
+Generates math problem based on two numbers. The correct sum is generated as well as two random sums.  
+Also, the function checkAnswer compares the chosen answer to the correct answer and notifies the user
+*/
 class MathRender extends React.Component {
   constructor(props){
     super(props);
@@ -105,6 +107,7 @@ class MathRender extends React.Component {
 
     }
 
+	//Generates three different alternatives to the math problem, and shuffles them with help from the function shuffle()
     newQuessh() {
 	this.state.num1 = getRandomInt(0,11);
 	this.state.num2 = getRandomInt(0,11);
@@ -125,6 +128,7 @@ class MathRender extends React.Component {
 	    this.state.quesshDone = true
 	}
 	
+	//returns the math question as well as three answers. When pressing a button the function checkAnswer checks if it is the right alternative
 	return (
 		<View>
 		<View>
@@ -152,15 +156,17 @@ class MathRender extends React.Component {
     }
 }
 
-
+/* 
+Generates a random number of red an yellow balloons
+*/
 class BallonRender extends React.Component {
-      constructor(props){
+    constructor(props){
     super(props);
-   this.state = {
+    this.state = {
        modalVisible: false,
        ballons: [],
-   };
-      }
+     };
+    }
 
     setModalVisible(visible) {
 	this.setState({modalVisible: visible});
@@ -211,10 +217,9 @@ Add the following lines under this.state.ballons to view thw coordinates, declar
 		<View>
 		{this.state.ballons}
 
-	    
 		<Modal
             animationType="slide"
-	    supportedOrientations={['landscape']}
+	     	supportedOrientations={['landscape']}
             transparent={true}
             visible={this.state.modalVisible}
             onRequestClose={() => { alert('Modal has been closed.');}}>
@@ -226,19 +231,19 @@ Add the following lines under this.state.ballons to view thw coordinates, declar
 		<View style = {styles.exitButton}>
 		<Button onPress={() => this.setModalVisible(!this.state.modalVisible)} title={i18n.t('quit')} color="#FFFFFF" accessibilityLabel="Tap on Me"/>
 		</View>
-
 	    </Modal>
 		
 		<TouchableHighlight
             onPress={() => { this.setModalVisible(true); }}>
 		<Text>Modal</Text>
 		</TouchableHighlight>
-		
 	    </View>
 	);
     }
 }
-
+/* 
+Creates draggable circle, designed in order to "shoot" the balloons and activate the modal 
+*/
 class DraggableCircle extends React.Component {
 	constructor() {
 		super();
@@ -302,11 +307,11 @@ class HomeScreen extends React.Component {
     render() {
 	if (!this.state.isLoadingComplete && !this.props.skipLoadingScreen) {
 	    return (
-		    <AppLoading
+		<AppLoading
 		startAsync={this._loadResourcesAsync}
 		onError={this._handleLoadingError}
 		onFinish={this._handleFinishLoading}
-		    />
+		/>
 	    );
 	} else {
 	}
@@ -331,7 +336,8 @@ class HomeScreen extends React.Component {
 		</View>
 		</ImageBackground>	    
 	);
-    }
+	}
+	//Load the screen when background pic has finished loading 
     _loadResourcesAsync = async () => {
 	return Promise.all([
 	    Asset.loadAsync([
@@ -339,24 +345,19 @@ class HomeScreen extends React.Component {
 	    ]),
 	]);
     };
-    
     _handleLoadingError = error => {
-	// In this case, you might want to report the error to your error
-	// reporting service, for example Sentry. 
-	
+	// In this case, you might want to report the error
 	
 	console.warn(error);
     };
-    
     _handleFinishLoading = () => {
 	this.setState({ isLoadingComplete: true });
     };
 }
 
+//Game screen, calls the following functions in order to generate balloons and a draggable circle
 class GameScreen extends React.Component {
     render() {
-
-
 	return (
 		<ImageBackground source={require('./vy2.png')} style={styles.backgroundImage}>
 		<View style={styles.container}>
@@ -380,6 +381,7 @@ class TutorialScreen extends React.Component {
     }
 }
 
+//Navigation btw screens
 const RootStack = createStackNavigator(
     {
 	Home: HomeScreen,
@@ -398,8 +400,9 @@ export default class App extends React.Component {
 }
 
 
-
-
+/* 
+Styles. Uses predefined sizes in template Styles.js
+*/
 let styles = StyleSheet.create({
     container: {
 	flex: 1,
@@ -475,9 +478,12 @@ let styles = StyleSheet.create({
 	},
 })
 
-// Enable fallbacks if you want `en-US` and `en-GB` to fallback to `en`
+
+/* 
+Multilingual support, english and swedish 
+Enable fallbacks if you want `en-US` and `en-GB` to fallback to `en`
+*/
 i18n.fallbacks = true
-   
 i18n.translations = {
   en: {
 	start: 'START GAME', 
