@@ -88,7 +88,7 @@ class MathRender extends React.Component {
     checkAnswer(randAnsw, corrAnsw) {
 	if (randAnsw == corrAnsw) {
 	    this.setState({
-		textValue:  <Text>'CORRECT ANSWER, PRESS QUIT TO CONTINUE'</Text>
+		textValue:  <Text>{i18n.t('correct_answer')}</Text>
 	    })
 	    this.setState({color:'green'})
 	    console.log(this.state.textValue)
@@ -97,7 +97,7 @@ class MathRender extends React.Component {
 
 	else {
 		this.setState({
-		textValue: <Text>'SORRY YOUR ANSWER IS WRONG, TRY AGAIN'</Text>
+		textValue: <Text>{i18n.t('correct_answer')}</Text>
 		})
 	    	    this.setState({color:'red'})
 		console.log(this.state.textValue)
@@ -131,7 +131,7 @@ class MathRender extends React.Component {
 		<View>
 		<ShowAnswResult text= {this.state.textValue} />
 		</View>
-		<Text style = {styles.question}>What is {this.state.num1} + {this.state.num2}?</Text>
+		<Text style = {styles.question}>{i18n.t('what_is')}{this.state.num1} + {this.state.num2}?</Text>
 		<View style = {styles.row}>
 		<View style = {[styles.modalButton,{backgroundColor: this.state.color}]}>
 		<Button onPress={() =>  this.checkAnswer(this.state.shuffledAlt[0], this.state.sum)} title={this.state.shuffledAlt[0]} color="#FFFFFF" accessibilityLabel="Tap on Me"/>
@@ -224,14 +224,14 @@ Add the following lines under this.state.ballons to view thw coordinates, declar
 		</View>
 		</View>
 		<View style = {styles.exitButton}>
-		<Button onPress={() => this.setModalVisible(!this.state.modalVisible)} title='QUIT' color="#FFFFFF" accessibilityLabel="Tap on Me"/>
+		<Button onPress={() => this.setModalVisible(!this.state.modalVisible)} title={i18n.t('quit')} color="#FFFFFF" accessibilityLabel="Tap on Me"/>
 		</View>
 
 	    </Modal>
 		
 		<TouchableHighlight
             onPress={() => { this.setModalVisible(true); }}>
-		<Text>Show Modal</Text>
+		<Text>Modal</Text>
 		</TouchableHighlight>
 		
 	    </View>
@@ -321,9 +321,13 @@ class HomeScreen extends React.Component {
 		<View style={styles.buttonContainer}>
 		<Button onPress={() => this.props.navigation.navigate('Tutorial')} title={i18n.t('tutorial')} color="#FFFFFF" accessibilityLabel="Tap on Me"/>
 		</View>
-		<View style={styles.exitButton}>
-			<Button onPress={() => {i18n.locale = 'en_EN', this.forceUpdate()}} title={i18n.t('changeLanguage')} color="#FFFFFF" accessibilityLabel="Tap on Me"/>
-		</View>
+		<TouchableHighlight onPress={() => {i18n.locale = 'en', this.forceUpdate()}}>
+    		<Image style={styles.imageStyle} source={require('./flag-en.png')} />
+		</TouchableHighlight>
+		<View style={styles.divider3}></View>
+		<TouchableHighlight onPress={() => {i18n.locale = 'sv', this.forceUpdate()}}>
+    		<Image style={styles.imageStyle} source={require('./flag-se.png')} />
+		</TouchableHighlight>
 		</View>
 		</ImageBackground>	    
 	);
@@ -339,6 +343,7 @@ class HomeScreen extends React.Component {
     _handleLoadingError = error => {
 	// In this case, you might want to report the error to your error
 	// reporting service, for example Sentry. 
+	
 	
 	console.warn(error);
     };
@@ -433,7 +438,11 @@ let styles = StyleSheet.create({
     divider2: {
 	width:Style.WIDTH,
 	height:0,
-    },
+	},
+	divider3: {
+	width:0,
+	height:Style.DIVIDER2,
+	},
     question: {
 	color: 'white',
 	fontSize: Style.FONT_SIZE_BIG,
@@ -457,22 +466,35 @@ let styles = StyleSheet.create({
 		position: 'absolute',
 		left: 100,
 		bottom: 50
-	  }
+	},
+	imageStyle: {
+		width: circleRadius * 1.5,
+		height: circleRadius * 1.5,
+		left: Style.FLAG_POS_WIDTH, 
+		top: Style.FLAG_POS_HEIGHT,
+	},
 })
 
 // Enable fallbacks if you want `en-US` and `en-GB` to fallback to `en`
 i18n.fallbacks = true
    
 i18n.translations = {
-  en_EN: {
+  en: {
 	start: 'START GAME', 
 	tutorial: 'TUTORIAL', 
-	changeLanguage: 'Change Language'
+	quit: 'QUIT',
+	what_is: 'What is ',
+	correct_answer: 'CORRECT ANSWER, PRESS QUIT TO CONTINUE', 
+	wrong_answer: 'SORRY YOUR ANSWER IS WRONG, TRY AGAIN', 
+	
   },
   sv: {
 	start: 'BÖRJA SPELA', 
-	tutorial: 'TUTORIAL',
-	changeLanguage: 'Byt Språk'
+	tutorial: 'HJÄLP',
+	quit: 'STÄNG',
+	what_is: 'Vad är ',
+	correct_answer: 'RÄTT SVAR; STÄNG FÖR ATT FORTSÄTTA', 
+	wrong_answer: 'TYVÄRR DITT SVAR ÄR FEL, TESTA IGEN', 
   }
 }
 

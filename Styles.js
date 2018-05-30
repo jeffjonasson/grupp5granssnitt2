@@ -47,6 +47,7 @@ export default Style = {
    // OTHER
    PADDING: em(1),
    DIVIDER:  em(1),
+   DIVIDER2:  em(1.3),
    ROW: em(10), 
    WIDTH: em(2.5),
    MARGIN_TOP_QUESTION: em(4),
@@ -54,5 +55,7 @@ export default Style = {
    PADDING_MODAL: em(9),
    BALLON_WIDTH: em(5),
    BALLON_HEIGHT: em(15),
-  
+   FLAG_POS_HEIGHT: -em(15),
+   FLAG_POS_WIDTH: em(24),  
+
 };
