@@ -115,8 +115,8 @@ class MathRender extends React.Component {
 
     //Generates three different alternatives to the math problem, and shuffles them with help from the function shuffle()
     newQuessh() {
-	this.state.num1 = getRandomInt(0,11);
-	this.state.num2 = getRandomInt(0,11);
+	this.state.num1 = getRandomInt(0,51);
+	this.state.num2 = getRandomInt(0,51);
 	this.state.sum = (this.state.num1 + this.state.num2).toString();
 	let randAnsw1 = getRandomInt(0,this.state.num1+this.state.num2+10).toString();
 	let randAnsw2 = getRandomInt(0,this.state.num1+this.state.num2+10).toString();
@@ -208,6 +208,7 @@ class BallonRender extends React.Component {
     render() {
 	if(popBalloon){
 	    this.state.ballons.pop();
+	    popBalloon = false;
 	}
 	   else if(newBallones){
 		this.createBallones();
@@ -250,7 +251,7 @@ class BallonRender extends React.Component {
 		    <TouchableHighlight
 				style = {styles.showModal}
 				onPress={() => { this.setModalVisible(true); }}>
-		    	<Text>Modal</Text>
+		    <Text>{i18n.t('modal')}</Text>
 		    </TouchableHighlight>
 		    </View>
 	    );
@@ -662,7 +663,8 @@ class BallonRender extends React.Component {
 		drag_ball: 'Drag the spike ball', 
 		hit_balloon: 'to hit the balloons.', 
 		instructions: 'Choose button with right answer', 
-		continue: 'Click here to continue!',
+	    continue: 'Click here to continue!',
+	    modal: 'Press for question!',
 	    
 	},
 	sv: {
@@ -676,7 +678,8 @@ class BallonRender extends React.Component {
 		drag_ball: 'Dra spikbollen och',
 		hit_balloon: 'pricka ballongerna.', 
 		instructions: 'Välj knappen med rätt svar', 
-		continue: 'Klicka här för att forsätta!',
+	    continue: 'Klicka här för att forsätta!',
+	    modal: 'Tryck för en fråga!',
 	}
     }
 
