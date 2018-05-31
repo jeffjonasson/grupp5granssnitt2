@@ -449,8 +449,8 @@ class BallonRender extends React.Component {
 		return (
 			<ImageBackground source={require('./screen2.png')} style={styles.backgroundImage}>
 			<View style={styles.container}>
-			<Text style={styles.instructions2}>{i18n.t('instructions')}</Text>
-				<Text style={styles.instructions3}>{i18n.t('continue')}</Text>
+			<Text style={styles.instructions}>{i18n.t('instructions')}</Text>
+				<Text style={styles.instructions2}>{i18n.t('continue')}</Text>
 				<TouchableHighlight onPress={() => this.props.navigation.navigate('Tutorial3')}>
 					<Image style={styles.speakStyle} source={require('./pratbubbla.png')} />
 				</TouchableHighlight>
@@ -597,35 +597,35 @@ class BallonRender extends React.Component {
 	speakStyle: {
 		width: Style.SPEAK_WIDTH, 
 		height: Style.SPEAK_WIDTH, 
-		bottom: 75, 
-		left: 220, 
+		bottom: Style.SPEAK_POS_BOTTOM, 
+		left: Style.SPEAK_POS_LEFT, 
 	},
 	instructions: { 
-		bottom: -25, 
-		left: 220,
+		bottom: Style.INSTRUCTIONS1_BOTTOM, 
+		left: Style.SPEAK_POS_LEFT,
 		zIndex: 2,
 		color: 'blue',
 		fontWeight: 'bold',
 		 
 	},
 	instructions2: { 
-		bottom: -30, 
-		left: 220,
+		bottom: Style.INSTRUCTIONS2_BOTTOM, 
+		left: Style.SPEAK_POS_LEFT,
 		zIndex: 2, 
 		color: 'blue',
 		fontWeight: 'bold',
 	},
 	instructions3: { 
-		bottom: -35, 
-		left: 220,
+		bottom: Style.INSTRUCTIONS3_BOTTOM, 
+		left: Style.SPEAK_POS_LEFT,
 		zIndex: 2, 
 		color: 'blue',
 		fontWeight: 'bold',
 	},
 	hot_air_balloon: { 
-		width: 200, 
-		height: 200,
-		left: 200,
+		width: Style.HOT_AIR_BALLOON, 
+		height: Style.HOT_AIR_BALLOON,
+		left: Style.HOT_AIR_BALLOON,
 	},
 	startButton: {
 	    backgroundColor: 'rgba(52, 52, 52, 0.3)',

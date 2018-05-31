@@ -57,8 +57,17 @@ export default Style = {
    BALLON_HEIGHT: em(15),
    FLAG_POS_HEIGHT: -em(15),
    FLAG_POS_WIDTH: em(24),  
+
+   //TUTORIAL
    PLANE_WIDTH: em(38), 
    PLANE_HEIGHT: em(8), 
    SPEAK_WIDTH: em(20),
+   SPEAK_POS_BOTTOM: em(6) , 
+   SPEAK_POS_LEFT: em(18),
+   INSTRUCTIONS1_BOTTOM: -em(3.5),
+   INSTRUCTIONS2_BOTTOM: -em(4),
+   INSTRUCTIONS3_BOTTOM: -em(4.5),
+   HOT_AIR_BALLOON: em(17), 
+
 
 };
