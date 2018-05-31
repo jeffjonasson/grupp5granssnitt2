@@ -432,8 +432,9 @@ class BallonRender extends React.Component {
 		return (
 			<ImageBackground source={require('./screen1.png')} style={styles.backgroundImage}>
 			<View style={styles.container}>
-			<Text style={styles.instructions2}>{i18n.t('instructions')}</Text>
-				<Text style={styles.instructions}>{i18n.t('continue')}</Text>
+			<Text style={styles.instructions}>{i18n.t('drag_ball')}</Text>
+			<Text style={styles.instructions2}>{i18n.t('hit_balloon')}</Text>
+				<Text style={styles.instructions3}>{i18n.t('continue')}</Text>
 				<TouchableHighlight onPress={() => this.props.navigation.navigate('Tutorial2')}>
 					<Image style={styles.speakStyle} source={require('./pratbubbla.png')} />
 				</TouchableHighlight>
@@ -448,6 +449,11 @@ class BallonRender extends React.Component {
 		return (
 			<ImageBackground source={require('./screen2.png')} style={styles.backgroundImage}>
 			<View style={styles.container}>
+			<Text style={styles.instructions2}>{i18n.t('instructions')}</Text>
+				<Text style={styles.instructions3}>{i18n.t('continue')}</Text>
+				<TouchableHighlight onPress={() => this.props.navigation.navigate('Tutorial3')}>
+					<Image style={styles.speakStyle} source={require('./pratbubbla.png')} />
+				</TouchableHighlight>
 			</View>
 			</ImageBackground>
 		);
@@ -456,9 +462,14 @@ class BallonRender extends React.Component {
 	
 	class TutorialScreen3 extends React.Component {
 		render() {
+
+		newBallones = true;
 		return (
-			<ImageBackground source={require('./screen2.png')} style={styles.backgroundImage}>
+			<ImageBackground source={require('./blue.jpg')} style={styles.backgroundImage}>
 			<View style={styles.container}>
+			<View style={styles.buttonContainer}>
+		    <Button onPress={() => this.props.navigation.navigate('Game')} title={i18n.t('start')} color="#FFFFFF" accessibilityLabel="Tap on Me"/>
+		    </View>
 			</View>
 			</ImageBackground>
 		);
@@ -582,12 +593,24 @@ class BallonRender extends React.Component {
 	instructions: { 
 		bottom: -25, 
 		left: 220,
-		zIndex: 2, 
+		zIndex: 2,
+		color: 'blue',
+		fontWeight: 'bold',
+		 
 	},
 	instructions2: { 
-		bottom: -20, 
+		bottom: -30, 
 		left: 220,
 		zIndex: 2, 
+		color: 'blue',
+		fontWeight: 'bold',
+	},
+	instructions3: { 
+		bottom: -35, 
+		left: 220,
+		zIndex: 2, 
+		color: 'blue',
+		fontWeight: 'bold',
 	},
 
     })
@@ -607,7 +630,9 @@ class BallonRender extends React.Component {
 	    correct_answer: 'CORRECT ANSWER, PRESS QUIT TO CONTINUE', 
 	    wrong_answer: 'SORRY YOUR ANSWER IS WRONG, TRY AGAIN', 
 		begin: 'Lets begin! To continue, tap on the plane.', 
-		instructions: 'Drag the ball to hit the balloons.', 
+		drag_ball: 'Drag the spike ball', 
+		hit_balloon: 'to hit the balloons.', 
+		instructions: 'Choose button with right answer', 
 		continue: 'Click here to continue!',
 	    
 	},
@@ -619,7 +644,9 @@ class BallonRender extends React.Component {
 	    correct_answer: 'RÄTT SVAR; STÄNG FÖR ATT FORTSÄTTA', 
 	    wrong_answer: 'TYVÄRR DITT SVAR ÄR FEL, TESTA IGEN', 
 		begin: 'Vi kör igång! Tryck på planet för att fortsätta.',
-		instructions: 'Dra bollen & pricka ballongerna.',
+		drag_ball: 'Dra spikbollen och',
+		hit_balloon: 'pricka ballongerna.', 
+		instructions: 'Välj knappen med rätt svar', 
 		continue: 'Klicka här för att forsätta!',
 	}
     }
