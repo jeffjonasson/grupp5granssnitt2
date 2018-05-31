@@ -428,19 +428,42 @@ class BallonRender extends React.Component {
     }
 
     class TutorialScreen1 extends React.Component {
-	
-	render() {
-	    return (
-		    <ImageBackground source={require('./blue.jpg')} style={styles.backgroundImage}>
-		    <View style={styles.container}>
-		    <Image style={{bottom: -50, left: 50}} source={require('./pratbubbla.png')} />
-		    <Text style={{bottom: 100, left: 50}}>Hej!</Text>
-		    <Image style={{bottom: 0, right: -200}} source={require('./bird.png')} />
-		    </View>
-		    </ImageBackground>
-	    );
+		render() {
+		return (
+			<ImageBackground source={require('./screen1.png')} style={styles.backgroundImage}>
+			<View style={styles.container}>
+			<Text style={styles.instructions2}>{i18n.t('instructions')}</Text>
+				<Text style={styles.instructions}>{i18n.t('continue')}</Text>
+				<TouchableHighlight onPress={() => this.props.navigation.navigate('Tutorial2')}>
+					<Image style={styles.speakStyle} source={require('./pratbubbla.png')} />
+				</TouchableHighlight>
+			</View>
+			</ImageBackground>
+		);
+		}
 	}
-    }
+	
+	class TutorialScreen2 extends React.Component {
+		render() {
+		return (
+			<ImageBackground source={require('./screen2.png')} style={styles.backgroundImage}>
+			<View style={styles.container}>
+			</View>
+			</ImageBackground>
+		);
+		}
+	}
+	
+	class TutorialScreen3 extends React.Component {
+		render() {
+		return (
+			<ImageBackground source={require('./screen2.png')} style={styles.backgroundImage}>
+			<View style={styles.container}>
+			</View>
+			</ImageBackground>
+		);
+		}
+	}
 
     //Navigation btw screens
     const RootStack = createStackNavigator(
@@ -448,7 +471,9 @@ class BallonRender extends React.Component {
 	    Home: HomeScreen,
 	    Game: GameScreen,
 	    Tutorial: TutorialScreen,
-	    Tutorial1: TutorialScreen1,
+		Tutorial1: TutorialScreen1,
+		Tutorial2: TutorialScreen2,
+		Tutorial3: TutorialScreen3,
 	},
 	{
 	    initialRouteName: 'Home',
@@ -548,6 +573,22 @@ class BallonRender extends React.Component {
 	    width: Style.PLANE_WIDTH, 
 	    height: Style.PLANE_HEIGHT,
 	},
+	speakStyle: {
+		width: Style.SPEAK_WIDTH, 
+		height: Style.SPEAK_WIDTH, 
+		bottom: 75, 
+		left: 220, 
+	},
+	instructions: { 
+		bottom: -25, 
+		left: 220,
+		zIndex: 2, 
+	},
+	instructions2: { 
+		bottom: -20, 
+		left: 220,
+		zIndex: 2, 
+	},
 
     })
 
@@ -565,7 +606,9 @@ class BallonRender extends React.Component {
 	    what_is: 'What is ',
 	    correct_answer: 'CORRECT ANSWER, PRESS QUIT TO CONTINUE', 
 	    wrong_answer: 'SORRY YOUR ANSWER IS WRONG, TRY AGAIN', 
-	    begin: 'Lets begin! To continue, tap on the plane.', 
+		begin: 'Lets begin! To continue, tap on the plane.', 
+		instructions: 'Drag the ball to hit the balloons.', 
+		continue: 'Click here to continue!',
 	    
 	},
 	sv: {
@@ -575,7 +618,9 @@ class BallonRender extends React.Component {
 	    what_is: 'Vad är ',
 	    correct_answer: 'RÄTT SVAR; STÄNG FÖR ATT FORTSÄTTA', 
 	    wrong_answer: 'TYVÄRR DITT SVAR ÄR FEL, TESTA IGEN', 
-	    begin: 'Vi kör igång! Tryck på planet för att fortsätta.',
+		begin: 'Vi kör igång! Tryck på planet för att fortsätta.',
+		instructions: 'Dra bollen & pricka ballongerna.',
+		continue: 'Klicka här för att forsätta!',
 	}
     }
 
