@@ -183,8 +183,8 @@ class BallonRender extends React.Component {
     createBallones(){
 	this.state.ballons=[];
 	for (let i = 0; i <= this.state.nbrBalloons; i++) { 
-	    this.state.randHeight = getRandomInt(-deviceHeight+250,0);
-	    this.state.randWidth= getRandomInt(0, deviceWidth/2);
+	    this.state.randHeight = getRandomInt((deviceHeight / 4) - deviceHeight,0);
+	    this.state.randWidth= getRandomInt(0, (deviceWidth/2) - deviceWidth/8);
 	    coordinatesHeight.push(this.state.randHeight);
 	    coordinatesWidth.push(this.state.randWidth);
 	    
