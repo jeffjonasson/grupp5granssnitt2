@@ -4,6 +4,8 @@ import { createStackNavigator,} from 'react-navigation';
 import { AppLoading, Asset, Font } from 'expo';
 import i18n from 'ex-react-native-i18n';
 import Style from "./Styles.js";
+import * as Animatable from 'react-native-animatable';
+
 
 //Define coordinates, sizes, etc for generating the balloons. 
 let deviceWidth = Dimensions.get('window').width
@@ -363,9 +365,21 @@ class HomeScreen extends React.Component {
 
 //Game screen, calls the following functions in order to generate balloons and a draggable circle
 class GameScreen extends React.Component {
+      constructor(props) {
+    super(props);
+    this.state = {
+	animationType: 'slideInDown',
+
+    };
+  }
     render() {
 	return (
 		<ImageBackground source={require('./vy2.png')} style={styles.backgroundImage}>
+		<View style={styles.container}>
+		<Animatable.View animation={this.state.animationType} iterationCount={"infinite"} direction={"alternate"} easing={"ease-in-out-sine"}>
+		<Image source={require('./moln.png')}></Image>
+		</Animatable.View>
+		</View>
 		<View style={styles.container}>
 		<BallonRender/>
 		<DraggableCircle/>
@@ -376,12 +390,11 @@ class GameScreen extends React.Component {
 } 
 
 class TutorialScreen extends React.Component {
+
     render() {
 	return (
 		<ImageBackground source={require('./vy2.png')} style={styles.backgroundImage}>
-		<View style={styles.container}>
-		<Text>Tutorial Screen</Text>
-		</View>
+
 		</ImageBackground>
 	);
     }
