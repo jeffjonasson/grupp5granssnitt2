@@ -259,7 +259,6 @@ class DraggableCircle extends React.Component {
 			pan: new Animated.ValueXY()
 	  	};
 	}
-
 	componentWillMount() {
 	  	// Add a listener for the delta value change
 	  	this._val = { x: 0 , y: 0 }
@@ -270,14 +269,10 @@ class DraggableCircle extends React.Component {
 			onPanResponderMove: Animated.event([null, { dx: this.state.pan.x, dy: this.state.pan.y }]),
 			// this.state.pan.setValue({ x:0, y:0})
 			onPanResponderRelease: (e, gesture) => {
-				/* Animated.spring(this.state.pan, {
-				  	toValue: { x: 0, y: 0 },
-				 	friction: 5
-				}).start(); */
 				Animated.sequence([
 					Animated.decay(this.state.pan, {
 						// coast to a stop
-						velocity: {x: 0.8, y: -0.2}, // velocity from gesture release
+						velocity: {x: 0.8, y: -0.3}, // velocity from gesture release
 						deceleration: 0.99895,
 					}),
 					Animated.spring(this.state.pan, {
@@ -285,6 +280,10 @@ class DraggableCircle extends React.Component {
 						friction: 5
 					}),
 				]).start(); 
+				/* for (let i = 0; i < 50; i++) {
+					console.log(this.state.pan.getTranslateTransform())
+				} */
+				console.log(this._val.x + " " + this._val.y)
 			}
 		});
 		console.log(this._val.x + " " + this._val.y)
@@ -298,7 +297,9 @@ class DraggableCircle extends React.Component {
 			<Animated.View
 				{...this.panResponder.panHandlers}
 				style={[panStyle, styles.circleFig]}
-			/>
+			>
+			<Image source={require('./spikeball.png')} />
+			</Animated.View>
 		);
 	}
 }
@@ -506,7 +507,6 @@ let styles = StyleSheet.create({
 	position: 'absolute',
     },
     circleFig: {
-		backgroundColor: "grey",
 		width: circleRadius * 2,
 		height: circleRadius * 2,
 		borderRadius: circleRadius,
