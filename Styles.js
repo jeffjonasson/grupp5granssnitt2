@@ -57,5 +57,7 @@ export default Style = {
    BALLON_HEIGHT: em(15),
    FLAG_POS_HEIGHT: -em(15),
    FLAG_POS_WIDTH: em(24),  
+   PLANE_WIDTH: em(38), 
+   PLANE_HEIGHT: em(8),
 
 };

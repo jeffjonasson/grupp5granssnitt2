@@ -350,6 +350,12 @@ class HomeScreen extends React.Component {
 	return Promise.all([
 	    Asset.loadAsync([
 		require('./vy2.png'),
+		require('./blue.jpg'),
+		require('./getStarted.png'),
+		require('./flag-en.png'),
+		require('./flag-se.png'),
+		require('./bird.png'),
+		require('./pratbubbla.png'),
 	    ]),
 	]);
     };
@@ -390,11 +396,29 @@ class GameScreen extends React.Component {
 } 
 
 class TutorialScreen extends React.Component {
-
     render() {
 	return (
-		<ImageBackground source={require('./vy2.png')} style={styles.backgroundImage}>
+		<ImageBackground source={require('./blue.jpg')} style={styles.backgroundImage}>
+		<View style={styles.container}>
+		<TouchableHighlight onPress={() => this.props.navigation.navigate('Tutorial1')}>
+			<Image style={styles.planeStyle} source={require('./getStarted.png')} />
+		</TouchableHighlight>	
+			<Text style={styles.textStyle}>{i18n.t('begin')}</Text>
+		</View>
+		</ImageBackground>
+	);
+    }
+}
 
+class TutorialScreen1 extends React.Component {
+    render() {
+	return (
+		<ImageBackground source={require('./blue.jpg')} style={styles.backgroundImage}>
+		<View style={styles.container}>
+			<Image style={{bottom: -50, left: 50}} source={require('./pratbubbla.png')} />
+			<Text style={{bottom: 100, left: 50}}>Hej!</Text>
+			<Image style={{bottom: 0, right: -200}} source={require('./bird.png')} />
+		</View>
 		</ImageBackground>
 	);
     }
@@ -406,6 +430,7 @@ const RootStack = createStackNavigator(
 	Home: HomeScreen,
 	Game: GameScreen,
 	Tutorial: TutorialScreen,
+	Tutorial1: TutorialScreen1,
     },
     {
 	initialRouteName: 'Home',
@@ -495,6 +520,18 @@ let styles = StyleSheet.create({
 		left: Style.FLAG_POS_WIDTH, 
 		top: Style.FLAG_POS_HEIGHT,
 	},
+	textStyle: {
+		textAlign: 'center',
+		bottom: -Style.DIVIDER2, 
+		fontSize: Style.FONT_SIZE * 1.5, 
+		lineHeight: Style.FONT_SIZE * 3, 
+		color: 'white',
+	},
+	planeStyle: {
+		width: Style.PLANE_WIDTH, 
+		height: Style.PLANE_HEIGHT,
+	},
+
 })
 
 
@@ -511,6 +548,7 @@ i18n.translations = {
 	what_is: 'What is ',
 	correct_answer: 'CORRECT ANSWER, PRESS QUIT TO CONTINUE', 
 	wrong_answer: 'SORRY YOUR ANSWER IS WRONG, TRY AGAIN', 
+	begin: 'Lets begin! To continue, tap on the plane.', 
 	
   },
   sv: {
@@ -520,6 +558,7 @@ i18n.translations = {
 	what_is: 'Vad är ',
 	correct_answer: 'RÄTT SVAR; STÄNG FÖR ATT FORTSÄTTA', 
 	wrong_answer: 'TYVÄRR DITT SVAR ÄR FEL, TESTA IGEN', 
+	begin: 'Vi kör igång! Tryck på planet för att fortsätta.',
   }
 }
 
