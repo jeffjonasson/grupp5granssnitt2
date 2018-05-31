@@ -208,6 +208,7 @@ class BallonRender extends React.Component {
     render() {
 	if(popBalloon){
 	    this.state.ballons.pop();
+	    popBalloon = false;
 	}
 	   else if(newBallones){
 		this.createBallones();
@@ -249,7 +250,7 @@ class BallonRender extends React.Component {
 		    
 		    <TouchableHighlight
 		onPress={() => { this.setModalVisible(true); }}>
-		    <Text>Modal</Text>
+		    <Text>Press for question</Text>
 		    </TouchableHighlight>
 		    </View>
 	    );
