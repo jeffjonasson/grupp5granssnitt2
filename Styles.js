@@ -58,6 +58,7 @@ export default Style = {
    FLAG_POS_HEIGHT: -em(15),
    FLAG_POS_WIDTH: em(24),  
    PLANE_WIDTH: em(38), 
-   PLANE_HEIGHT: em(8),
+   PLANE_HEIGHT: em(8), 
+   SPEAK_WIDTH: em(20),
 
 };
