@@ -248,8 +248,9 @@ class BallonRender extends React.Component {
 		    </Modal>
 		    
 		    <TouchableHighlight
-		onPress={() => { this.setModalVisible(true); }}>
-		    <Text>Modal</Text>
+				style = {styles.showModal}
+				onPress={() => { this.setModalVisible(true); }}>
+		    	<Text>Modal</Text>
 		    </TouchableHighlight>
 		    </View>
 	    );
@@ -276,15 +277,17 @@ class BallonRender extends React.Component {
 		// this.state.pan.setValue({ x:0, y:0})
 		onPanResponderRelease: (e, gesture) => {
 		    Animated.sequence([
-			Animated.decay(this.state.pan, {
-			    // coast to a stop
-			    velocity: {x: 0.8, y: -0.3}, // velocity from gesture release
-			    deceleration: 0.99895,
-			}),
-			Animated.spring(this.state.pan, {
-			    toValue: {x: 0, y: 0},    // return to start
-			    friction: 5
-			}),
+				Animated.decay(this.state.pan, {
+					// coast to a stop
+					velocity: {
+						x: gesture.vx,
+						y: gesture.vy,}, // velocity from gesture release
+					deceleration: 0.99895,
+				}),
+				Animated.spring(this.state.pan, {
+					toValue: {x: 0, y: 0},    // return to start
+					friction: 5
+				}),
 		    ]).start(); 
 		    /* for (let i = 0; i < 50; i++) {
 		       console.log(this.state.pan.getTranslateTransform())
@@ -512,129 +515,133 @@ class BallonRender extends React.Component {
        Styles. Uses predefined sizes in template Styles.js
     */
     let styles = StyleSheet.create({
-	container: {
-	    flex: 1,
-	    alignItems: 'center', 
-	    justifyContent: 'center',
-	},
-	text: {
-	    fontSize: Style.FONT_SIZE,
-	    lineHeight: Style.FONT_SIZE * 1.5,
-	},
-	backgroundImage: {
-	    flex: 1,
-	},
-	buttonContainer: {
-	    backgroundColor: 'rgba(52, 52, 52, 0.3)',
-	    shadowColor: '#000000',
-	    borderRadius: 10,
-		padding: Style.PADDING, 
-	},
-	divider: {
-	    width:0,
-	    height:Style.DIVIDER,
-	},
-	modalButton: {
-	    backgroundColor: 'lightblue',
-	    shadowColor: '#000000',
-	    borderRadius: 10,
-	    padding: Style.PADDING,
-	},
-	row: {
-	    flexDirection: 'row',
-	    padding: Style.ROW,
-	    alignItems: 'center',
-	    justifyContent: 'center',
-	},
-	divider2: {
-	    width:Style.WIDTH,
-	    height:0,
-	},
-	divider3: {
-	    width:0,
-	    height:Style.DIVIDER2,
-	},
-	question: {
-	    color: 'white',
-	    fontSize: Style.FONT_SIZE_BIG,
-	    fontWeight: 'bold',
-	    textAlign: 'center',
-	    top: Style.MARGIN_TOP_QUESTION, 
-	},
-	exitButton: {
-	    backgroundColor: 'transparent',
-	    padding: Style.PADDING,
-	    alignSelf: 'flex-end',
-	    marginTop: Style.MARGIN_TOP_EXIT,
-	    marginLeft: Style.MARGIN_TOP_QUESTION,
-	    position: 'absolute',
-	},
-	circleFig: {
-	    width: circleRadius * 2,
-	    height: circleRadius * 2,
-	    borderRadius: circleRadius,
-	    position: 'absolute',
-	    left: 100,
-	    bottom: 50
-	},
-	imageStyle: {
-	    width: circleRadius * 1.5,
-	    height: circleRadius * 1.5,
-	    left: Style.FLAG_POS_WIDTH, 
-	    top: Style.FLAG_POS_HEIGHT,
-	},
-	textStyle: {
-	    textAlign: 'center',
-	    bottom: -Style.DIVIDER2, 
-	    fontSize: Style.FONT_SIZE * 1.5, 
-	    lineHeight: Style.FONT_SIZE * 3, 
-	    color: 'white',
-	},
-	planeStyle: {
-	    width: Style.PLANE_WIDTH, 
-	    height: Style.PLANE_HEIGHT,
-	},
-	speakStyle: {
-		width: Style.SPEAK_WIDTH, 
-		height: Style.SPEAK_WIDTH, 
-		bottom: Style.SPEAK_POS_BOTTOM, 
-		left: Style.SPEAK_POS_LEFT, 
-	},
-	instructions: { 
-		bottom: Style.INSTRUCTIONS1_BOTTOM, 
-		left: Style.SPEAK_POS_LEFT,
-		zIndex: 2,
-		color: 'blue',
-		fontWeight: 'bold',
-		 
-	},
-	instructions2: { 
-		bottom: Style.INSTRUCTIONS2_BOTTOM, 
-		left: Style.SPEAK_POS_LEFT,
-		zIndex: 2, 
-		color: 'blue',
-		fontWeight: 'bold',
-	},
-	instructions3: { 
-		bottom: Style.INSTRUCTIONS3_BOTTOM, 
-		left: Style.SPEAK_POS_LEFT,
-		zIndex: 2, 
-		color: 'blue',
-		fontWeight: 'bold',
-	},
-	hot_air_balloon: { 
-		width: Style.HOT_AIR_BALLOON, 
-		height: Style.HOT_AIR_BALLOON,
-		left: Style.HOT_AIR_BALLOON,
-	},
-	startButton: {
-	    backgroundColor: 'rgba(52, 52, 52, 0.3)',
-	    shadowColor: '#000000',
-	    borderRadius: 10,
-		padding: Style.PADDING,
-		position: 'absolute',  
-	},
-
+		container: {
+			flex: 1,
+			alignItems: 'center', 
+			justifyContent: 'center',
+		},
+		text: {
+			fontSize: Style.FONT_SIZE,
+			lineHeight: Style.FONT_SIZE * 1.5,
+		},
+		backgroundImage: {
+			flex: 1,
+		},
+		buttonContainer: {
+			backgroundColor: 'rgba(52, 52, 52, 0.3)',
+			shadowColor: '#000000',
+			borderRadius: 10,
+			padding: Style.PADDING, 
+		},
+		divider: {
+			width:0,
+			height:Style.DIVIDER,
+		},
+		modalButton: {
+			backgroundColor: 'lightblue',
+			shadowColor: '#000000',
+			borderRadius: 10,
+			padding: Style.PADDING,
+		},
+		row: {
+			flexDirection: 'row',
+			padding: Style.ROW,
+			alignItems: 'center',
+			justifyContent: 'center',
+		},
+		divider2: {
+			width:Style.WIDTH,
+			height:0,
+		},
+		divider3: {
+			width:0,
+			height:Style.DIVIDER2,
+		},
+		question: {
+			color: 'white',
+			fontSize: Style.FONT_SIZE_BIG,
+			fontWeight: 'bold',
+			textAlign: 'center',
+			top: Style.MARGIN_TOP_QUESTION, 
+		},
+		exitButton: {
+			backgroundColor: 'transparent',
+			padding: Style.PADDING,
+			alignSelf: 'flex-end',
+			marginTop: Style.MARGIN_TOP_EXIT,
+			marginLeft: Style.MARGIN_TOP_QUESTION,
+			position: 'absolute',
+		},
+		circleFig: {
+			width: circleRadius * 2,
+			height: circleRadius * 2,
+			borderRadius: circleRadius,
+			position: 'absolute',
+			left: deviceWidth/6 - circleRadius * 2,
+			bottom: deviceHeight/6 - circleRadius
+		},
+		imageStyle: {
+			width: circleRadius * 1.5,
+			height: circleRadius * 1.5,
+			left: Style.FLAG_POS_WIDTH, 
+			top: Style.FLAG_POS_HEIGHT,
+		},
+		textStyle: {
+			textAlign: 'center',
+			bottom: -Style.DIVIDER2, 
+			fontSize: Style.FONT_SIZE * 1.5, 
+			lineHeight: Style.FONT_SIZE * 3, 
+			color: 'white',
+		},
+		planeStyle: {
+			width: Style.PLANE_WIDTH, 
+			height: Style.PLANE_HEIGHT,
+		},
+		speakStyle: {
+			width: Style.SPEAK_WIDTH, 
+			height: Style.SPEAK_WIDTH, 
+			bottom: Style.SPEAK_POS_BOTTOM, 
+			left: Style.SPEAK_POS_LEFT, 
+		},
+		instructions: { 
+			bottom: Style.INSTRUCTIONS1_BOTTOM, 
+			left: Style.SPEAK_POS_LEFT,
+			zIndex: 2,
+			color: 'blue',
+			fontWeight: 'bold',
+			
+		},
+		instructions2: { 
+			bottom: Style.INSTRUCTIONS2_BOTTOM, 
+			left: Style.SPEAK_POS_LEFT,
+			zIndex: 2, 
+			color: 'blue',
+			fontWeight: 'bold',
+		},
+		instructions3: { 
+			bottom: Style.INSTRUCTIONS3_BOTTOM, 
+			left: Style.SPEAK_POS_LEFT,
+			zIndex: 2, 
+			color: 'blue',
+			fontWeight: 'bold',
+		},
+		hot_air_balloon: { 
+			width: Style.HOT_AIR_BALLOON, 
+			height: Style.HOT_AIR_BALLOON,
+			left: Style.HOT_AIR_BALLOON,
+		},
+		startButton: {
+			backgroundColor: 'rgba(52, 52, 52, 0.3)',
+			shadowColor: '#000000',
+			borderRadius: 10,
+			padding: Style.PADDING,
+			position: 'absolute',  
+		},
+		showModal: {
+			position: 'absolute',
+			left: (deviceWidth + 40) / 2 - (deviceWidth),
+			bottom: (deviceHeight) - (deviceHeight / 2),
+		}
     })
 
 
