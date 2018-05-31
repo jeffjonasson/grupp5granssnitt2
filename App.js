@@ -461,13 +461,23 @@ class BallonRender extends React.Component {
 	}
 	
 	class TutorialScreen3 extends React.Component {
+		constructor(props) {
+			super(props);
+			this.state = {
+			animationType: 'slideInUp',
+	
+			};
+		}
 		render() {
 
 		newBallones = true;
 		return (
 			<ImageBackground source={require('./blue.jpg')} style={styles.backgroundImage}>
 			<View style={styles.container}>
-			<View style={styles.buttonContainer}>
+			<Animatable.View animation={this.state.animationType} iterationCount={"infinite"} direction={"alternate"} easing={"ease-in-out-sine"}>
+			<Image style={styles.hot_air_balloon} source={require('./hot_air_balloon.png')} />
+			</Animatable.View>
+			<View style={styles.startButton}>
 		    <Button onPress={() => this.props.navigation.navigate('Game')} title={i18n.t('start')} color="#FFFFFF" accessibilityLabel="Tap on Me"/>
 		    </View>
 			</View>
@@ -518,7 +528,7 @@ class BallonRender extends React.Component {
 	    backgroundColor: 'rgba(52, 52, 52, 0.3)',
 	    shadowColor: '#000000',
 	    borderRadius: 10,
-	    padding: Style.PADDING,
+		padding: Style.PADDING, 
 	},
 	divider: {
 	    width:0,
@@ -611,6 +621,18 @@ class BallonRender extends React.Component {
 		zIndex: 2, 
 		color: 'blue',
 		fontWeight: 'bold',
+	},
+	hot_air_balloon: { 
+		width: 200, 
+		height: 200,
+		left: 200,
+	},
+	startButton: {
+	    backgroundColor: 'rgba(52, 52, 52, 0.3)',
+	    shadowColor: '#000000',
+	    borderRadius: 10,
+		padding: Style.PADDING,
+		position: 'absolute',  
 	},
 
     })
