@@ -683,7 +683,7 @@ i18n.translations = {
     },
     sv: {
 	start: 'BÖRJA SPELA', 
-	tutorial: 'HJÄLP',
+	tutorial: 'INSTRUKTIONER',
 	quit: 'STÄNG',
 	what_is: 'Vad är ',
 	correct_answer: 'RÄTT SVAR! STÄNG FÖR ATT FORTSÄTTA', 
