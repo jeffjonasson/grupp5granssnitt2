@@ -407,6 +407,9 @@ This class displays the first view the user will see when opening the applicatio
 	}
     } 
 
+/*
+Displays the first part of the tutorial, includes a "welcome message"
+*/ 
     class TutorialScreen extends React.Component {
 	constructor(props) {
 	    super(props);
@@ -431,6 +434,9 @@ This class displays the first view the user will see when opening the applicatio
 	}
     }
 
+/*
+Displays instructions for how to shot the spikeball and hit the balloones.
+*/
     class TutorialScreen1 extends React.Component {
 		render() {
 		return (
@@ -447,7 +453,11 @@ This class displays the first view the user will see when opening the applicatio
 		);
 		}
 	}
-	
+
+
+/*
+Displays instructions for how to answer the math question.
+*/
 	class TutorialScreen2 extends React.Component {
 		render() {
 		return (
@@ -463,7 +473,11 @@ This class displays the first view the user will see when opening the applicatio
 		);
 		}
 	}
-	
+
+
+/*
+Displays a button were one can press to continue to play the game.
+*/
 	class TutorialScreen3 extends React.Component {
 		constructor(props) {
 			super(props);
