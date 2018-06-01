@@ -70,8 +70,7 @@ class ShowAnswResult extends React.Component {
 }
 
 /* 
-   Generates math problem based on two numbers. The correct sum is generated as well as two random sums.  
-   Also, the function checkAnswer compares the chosen answer to the correct answer and notifies the user
+   Handles everything regarding the mathproblem, generates it, displays it and verifies it.   
 */
 class MathRender extends React.Component {
     constructor(props){
@@ -88,16 +87,15 @@ class MathRender extends React.Component {
 	this.checkAnswer = this.checkAnswer.bind(this);
     }
 
-    //TODO: Only the pressed button should change color, so different states? Something with states needs to be fixed.
-    //TODO: If correct, the hited balloon needs to be removed.
-    //TODO: Disabled the quit function until answered correctely? Or just not remove the hited balloon if closed before correct answer is given?
+/*
+ Compares the, by the user, chosen answer to the correct answer and notifies the user if it is correct or not
+*/
     checkAnswer(randAnsw, corrAnsw) {
 	if (randAnsw == corrAnsw) {
 	    this.setState({
 		textValue:  <Text>{i18n.t('correct_answer')}</Text>
 	    })
 	    this.setState({color:'green'})
-	    console.log(this.state.textValue)
 	    popBalloon = true;
 	    
 
@@ -113,7 +111,9 @@ class MathRender extends React.Component {
 
     }
 
-    //Generates three different alternatives to the math problem, and shuffles them with help from the function shuffle()
+    /*
+      Generates three different alternatives to the math problem, and shuffles them with help from the function shuffle(). At least one alternative will be the correct answer
+    */
     newQuessh() {
 	this.state.num1 = getRandomInt(0,51);
 	this.state.num2 = getRandomInt(0,51);
@@ -163,7 +163,7 @@ class MathRender extends React.Component {
 }
 
 /* 
-   Generates a random number of red an yellow balloons
+   Generates 10 balloons with a random distribution of color and display them. Colors available is red and yellow. Also checks wheater this rendering should happen or not, if no new balloons is needed it displays "the old ones", also checks if one balloon should be removed due to a correct answered question. This class also handles the displaying of the modal.
 */
 class BallonRender extends React.Component {
     constructor(props){
@@ -214,20 +214,6 @@ class BallonRender extends React.Component {
 		this.createBallones();
 	    }
 
-	    /*
-	      Add the following lines under this.state.ballons to view thw coordinates, declaration of variables needs to be changed if it should work (i.e this.state.rand...)
-	      return (
-	      <View>
-	      {this.state.ballons}
-	      <View style={styles.container}>
-	      <Text>{deviceWidth} 'DEVICE WIDTH'</Text>
-	      <Text>{deviceHeight} 'DEV HEIGHT'</Text>
-	      <Text>{this.state.randHeight} 'RAND HEIGHT'</Text>
-	      <Text>{this.state.randWidth} 'RAND WIDTH'</Text>
-	      <Text>{coordinatesWidth} 'COORD WIDTH'</Text>
-	      <Text>{coordinatesHeight} 'COORD HEIGHT'</Text>	
-	      </View>
-	    */
 	    return (
 		    <View>
 		    {this.state.ballons}
@@ -290,13 +276,8 @@ class BallonRender extends React.Component {
 					friction: 5
 				}),
 		    ]).start(); 
-		    /* for (let i = 0; i < 50; i++) {
-		       console.log(this.state.pan.getTranslateTransform())
-		       } */
-		    console.log(this._val.x + " " + this._val.y)
 		}
 	    });
-	    console.log(this._val.x + " " + this._val.y)
 	}
 	
 	render() {
@@ -314,6 +295,9 @@ class BallonRender extends React.Component {
 	}
     }
 
+/*
+This class displays the first view the user will see when opening the application. The user can choose between playing the game, go through the tutorial or switch language.
+*/
     class HomeScreen extends React.Component {
 	state = {
 	    isLoadingComplete: false,
@@ -381,7 +365,9 @@ class BallonRender extends React.Component {
 	};
     }
 
-    //Game screen, calls the following functions in order to generate balloons and a draggable circle
+    /*
+      Game screen, displays the game view by calling the respective functions in order to generate balloons and a draggable circle. Also handles the aniation of the cloud. 
+    */ 
     class GameScreen extends React.Component {
 	constructor(props) {
 	    super(props);
