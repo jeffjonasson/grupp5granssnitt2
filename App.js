@@ -323,14 +323,28 @@ class BallonRender extends React.Component {
 	    i18n.initAsync();
 	}
 
+	handleClick(){
+		this.props.navigation.navigate('Tutorial');
+		this._play();
+	}
+	_play = async () => {
+    	try {
+      const { soundObject, status } = await Expo.Audio.Sound.create(
+        require('./assets/sounds/airplane.mp3'),
+        { shouldPlay: true}
+      );
+      // Your sound is playing!
+    } catch (error) {
+      // An error occurred!
+    }}
+
 	render() {
 	    if (!this.state.isLoadingComplete && !this.props.skipLoadingScreen) {
 		return (
 			<AppLoading
 		    startAsync={this._loadResourcesAsync}
 		    onError={this._handleLoadingError}
-		    onFinish={this._handleFinishLoading}
-			/>
+		    onFinish={this._handleFinishLoading}/>
 		);
 	    } else {
 	    }
@@ -344,7 +358,7 @@ class BallonRender extends React.Component {
 		    </View>
 		    <View style={styles.divider}></View>
 		    <View style={styles.buttonContainer}>
-		    <Button onPress={() => this.props.navigation.navigate('Tutorial')} title={i18n.t('tutorial')} color="#FFFFFF" accessibilityLabel="Tap on Me"/>
+		    <Button onPress={() => this.handleClick(this)} title={i18n.t('tutorial')} color="#FFFFFF" accessibilityLabel="Tap on Me"/>
 		    </View>
 		    <TouchableHighlight onPress={() => {i18n.locale = 'en', this.forceUpdate()}}>
     		    <Image style={styles.imageStyle} source={require('./flag-en.png')} />
